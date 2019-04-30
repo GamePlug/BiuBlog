@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "My splendiferous Koa project",
+  "author": "LeiChao",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nodemon index.js --watch server",
+    "pro": "cross-env NODE_ENV=production pm2 start index.js --name server --watch"
+  },
+  "dependencies": {
+    "cross-env": "^5.2.0",
+    "koa": "^2.6.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.4.20"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}

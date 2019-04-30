@@ -64,8 +64,8 @@ export default {
   ** Axios module configuration
    */
   axios: {
-    host: 'ileichao.com',
-    port: 80,
+    host: 'localhost',
+    port: 3001,
     prefix: '/api',
     proxy: true
   },
