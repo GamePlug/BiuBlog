@@ -1,0 +1,27 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "description": "My peachy Nuxt.js project",
+  "author": "LeiChao",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.4.1",
+    "bulma": "^0.7.4",
+    "cross-env": "^5.2.0",
+    "github-markdown-css": "^3.0.1",
+    "highlight.js": "^9.15.6",
+    "markdown-it": "^8.4.2",
+    "nuxt": "^2.4.0"
+  },
+  "devDependencies": {
+    "node-sass": "^4.12.0",
+    "nodemon": "^1.18.9",
+    "sass-loader": "^7.1.0"
+  }
+}
