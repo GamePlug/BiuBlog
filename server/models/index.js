@@ -4,12 +4,13 @@ const models = Object.assign(
 )
 
 const mongoose = require('mongoose')
+const myConfig = require('../../config')
 
 const options = {
   useNewUrlParser: true,
 }
 
-mongoose.connect('mongodb://localhost:27017/blog', options).then(
+mongoose.connect(myConfig.server.mongodb, options).then(
   () => {
     console.log('connected to mongoDB')
   },

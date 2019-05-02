@@ -1,4 +1,5 @@
 import pkg from './package'
+const myConfig = require('../config')
 
 export default {
   mode: 'universal',
@@ -52,21 +53,21 @@ export default {
   },
 
   server: {
-    host: '0.0.0.0',
-    port: 3000
+    host: myConfig.blog.host,
+    port: myConfig.blog.port
   },
 
   router: {
-    base: '/'
+    base: myConfig.blog.base
   },
 
   /*
   ** Axios module configuration
    */
   axios: {
-    host: 'localhost',
-    port: 3001,
-    prefix: '/api',
+    host: myConfig.server.host,
+    port: myConfig.server.port,
+    prefix: myConfig.server.base,
     proxy: true
   },
 
