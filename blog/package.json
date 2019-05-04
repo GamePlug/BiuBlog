@@ -10,8 +10,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "pm2start": "cross-env NODE_ENV=production pm2 start index.js --name blog -- start --watch",
-    "pm2pro": "npm run build && npm run pm2start",
-    "pm2repro": "npm run build && pm2 delete blog && npm run pm2start"
+    "pm2stop": "pm2 delete blog"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.4.1",

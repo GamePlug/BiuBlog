@@ -1,0 +1,15 @@
+{
+  "name": "publish",
+  "version": "1.0.0",
+  "author": "LeiChao",
+  "private": true,
+  "scripts": {
+    "clear": "cross-env PUBLISH_ENV=clear node index.js",
+    "admin": "cross-env PUBLISH_ENV=admin node index.js",
+    "release": "cross-env PUBLISH_ENV=release node index.js"
+  },
+  "dependencies": {
+    "cross-env": "^5.2.0"
+  },
+  "devDependencies": {}
+}

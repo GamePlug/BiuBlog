@@ -6,8 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon index.js --watch server",
-    "pm2pro": "cross-env NODE_ENV=production pm2 start index.js --name server --watch",
-    "pm2repro": "pm2 delete server && npm run pm2pro"
+    "pm2start": "cross-env NODE_ENV=production pm2 start index.js --name server --watch",
+    "pm2stop": "pm2 delete server"
   },
   "dependencies": {
     "cross-env": "^5.2.0",
