@@ -1,39 +1,42 @@
 const fs = require('fs')
 const path = require('path')
 
-function deleteDir(src) {
-  if (fs.existsSync(src)) {
-    const files = fs.readdirSync(src)
-    files.forEach(function (path) {
-      const curPath = src + "/" + path
-      if (fs.statSync(curPath).isDirectory()) {
-        deleteDir(curPath)
-      } else {
-        fs.unlinkSync(curPath)
-      }
+function deleteSync(src) {
+  if (!fs.existsSync(src)) {
+    return
+  }
+  const stats = fs.statSync(src)
+  if (stats.isFile()) {
+    fs.unlinkSync(src)
+  } else if (stats.isDirectory()) {
+    const paths = fs.readdirSync(src)
+    paths.forEach(function (path) {
+      deleteSync(src + "/" + path)
     })
     fs.rmdirSync(src)
   }
 }
 
-function mkdirsSync(dirname) {
-  if (fs.existsSync(dirname)) {
+function mkdirsSync(src) {
+  if (fs.existsSync(src)) {
     return true
-  } else {
-    if (mkdirsSync(path.dirname(dirname))) {
-      fs.mkdirSync(dirname)
-      return true
-    }
+  }
+  if (mkdirsSync(path.dirname(src))) {
+    fs.mkdirSync(src)
+    return true
   }
 }
 
 function copySync(src, dst) {
+  if (src.indexOf('node_modules') !== -1) {// 排除node_modules目录
+    return
+  }
   const stats = fs.statSync(src)
-  if (stats && stats.isFile()) {
+  if (stats.isFile()) {
     const readable = fs.createReadStream(src)
     const writable = fs.createWriteStream(dst)
     readable.pipe(writable)// 注意此处是异步的
-  } else if (stats && stats.isDirectory()) {
+  } else if (stats.isDirectory()) {
     mkdirsSync(dst)
     const paths = fs.readdirSync(src)
     paths.forEach(function (path) {
@@ -45,7 +48,7 @@ function copySync(src, dst) {
 const root = '../'
 
 function clear(src) {
-  deleteDir(root + src)
+  deleteSync(root + src)
 }
 
 function copy(src, dst) {
@@ -53,27 +56,17 @@ function copy(src, dst) {
 }
 
 const env = process.env.PUBLISH_ENV
-if ("clear" === env) {
+if ('clear' === env) {
   clear('blog/static/admin')
   clear('publish/dist')
 
-} else if ("admin" === env) {
+} else if ('admin' === env) {
+  clear('blog/static/admin')
   copy('admin/dist', 'blog/static/admin')
 
-} else if ("release" === env) {
-  const configPath = 'publish/dist/config'
-  copy('config', configPath)
-  const serverPath = 'publish/dist/server/'
-  copy('server/models', `${serverPath}models`)
-  copy('server/routes', `${serverPath}routes`)
-  copy('server/index.js', `${serverPath}index.js`)
-  copy('server/package.json', `${serverPath}package.json`)
-  copy('server/package-lock.json', `${serverPath}package-lock.json`)
-  const blogPath = 'publish/dist/blog/'
-  copy('blog/.nuxt', `${blogPath}.nuxt`)
-  copy('blog/static', `${blogPath}static`)
-  copy('blog/index.js', `${blogPath}index.js`)
-  copy('blog/nuxt.config.js', `${blogPath}nuxt.config.js`)
-  copy('blog/package.json', `${blogPath}package.json`)
-  copy('blog/package-lock.json', `${blogPath}package-lock.json`)
+} else if ('release' === env) {
+  clear('publish/dist')
+  copy('config', 'publish/dist/config')
+  copy('server', 'publish/dist/server')
+  copy('blog', 'publish/dist/blog')
 }
