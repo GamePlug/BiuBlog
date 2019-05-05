@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "My splendiferous Koa project",
+  "description": "My server project",
   "author": "LeiChao",
   "private": true,
   "scripts": {

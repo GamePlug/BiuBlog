@@ -1,7 +1,7 @@
 {
   "name": "blog",
   "version": "1.0.0",
-  "description": "My peachy Nuxt.js project",
+  "description": "My blog project",
   "author": "LeiChao",
   "private": true,
   "scripts": {

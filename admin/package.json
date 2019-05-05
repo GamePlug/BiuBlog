@@ -1,6 +1,8 @@
 {
   "name": "admin",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "My admin project",
+  "author": "LeiChao",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

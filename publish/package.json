@@ -1,12 +1,13 @@
 {
   "name": "publish",
   "version": "1.0.0",
+  "description": "My publish project",
   "author": "LeiChao",
   "private": true,
   "scripts": {
-    "clear": "cross-env PUBLISH_ENV=clear node index.js",
-    "admin": "cross-env PUBLISH_ENV=admin node index.js",
-    "release": "cross-env PUBLISH_ENV=release node index.js"
+    "clear": "cross-env PUBLISH_ENV=clear NODE_ENV=production node index.js",
+    "admin": "cross-env PUBLISH_ENV=admin NODE_ENV=production node index.js",
+    "release": "cross-env PUBLISH_ENV=release NODE_ENV=production node index.js"
   },
   "dependencies": {
     "cross-env": "^5.2.0"
