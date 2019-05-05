@@ -1,5 +1,34 @@
 const fs = require('fs')
 const path = require('path')
+const myConfig = require('../config')
+const root = '../'
+const adminPath = `blog/static/${myConfig.admin.base}`
+const releasePath = 'publish/dist'
+
+switch (process.env.PUBLISH_ENV) {
+  case 'clear':
+    clear(adminPath)
+    clear(releasePath)
+    break
+  case 'admin':
+    clear(adminPath)
+    copy('admin/dist', adminPath)
+    break
+  case 'release':
+    clear(releasePath)
+    copy('config', `${releasePath}/config`)
+    copy('server', `${releasePath}/server`)
+    copy('blog', `${releasePath}/blog`)
+    break
+}
+
+function clear(src) {
+  deleteSync(root + src)
+}
+
+function copy(src, dst) {
+  copySync(root + src, root + dst)
+}
 
 function deleteSync(src) {
   if (!fs.existsSync(src)) {
@@ -14,16 +43,6 @@ function deleteSync(src) {
       deleteSync(src + "/" + path)
     })
     fs.rmdirSync(src)
-  }
-}
-
-function mkdirsSync(src) {
-  if (fs.existsSync(src)) {
-    return true
-  }
-  if (mkdirsSync(path.dirname(src))) {
-    fs.mkdirSync(src)
-    return true
   }
 }
 
@@ -45,28 +64,12 @@ function copySync(src, dst) {
   }
 }
 
-const root = '../'
-
-function clear(src) {
-  deleteSync(root + src)
-}
-
-function copy(src, dst) {
-  copySync(root + src, root + dst)
-}
-
-const env = process.env.PUBLISH_ENV
-if ('clear' === env) {
-  clear('blog/static/admin')
-  clear('publish/dist')
-
-} else if ('admin' === env) {
-  clear('blog/static/admin')
-  copy('admin/dist', 'blog/static/admin')
-
-} else if ('release' === env) {
-  clear('publish/dist')
-  copy('config', 'publish/dist/config')
-  copy('server', 'publish/dist/server')
-  copy('blog', 'publish/dist/blog')
+function mkdirsSync(src) {
+  if (fs.existsSync(src)) {
+    return true
+  }
+  if (mkdirsSync(path.dirname(src))) {
+    fs.mkdirSync(src)
+    return true
+  }
 }

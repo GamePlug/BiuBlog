@@ -72,15 +72,15 @@ export default {
   },
 
   /*
-  ** Proxy module configurationxun
+  ** Proxy module configuration
    */
   proxy: {
-    '/api/**': 'http://ileichao.com',
-    '/ileichao/**': {
-      target: 'http://ileichao.com',
-      changeOrigin: true,
-      pathRewrite: {'^/ileichao': ''}
-    }
+    [`${myConfig.server.base}/`]: `http://${myConfig.server.host}:${myConfig.server.port}`,
+    '/github': {
+      target: 'https://github.com/GamePlug',
+      pathRewrite: {'^/github': ''}
+    },
+    '/GamePlug': 'https://github.com'
   }
 
 }
