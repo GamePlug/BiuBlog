@@ -1,8 +1,19 @@
 <template>
   <div>
-    <nuxt/>
+    <BlogMenu/>
+    <div class="content">
+      <nuxt/>
+    </div>
   </div>
 </template>
+
+<script>
+  import BlogMenu from "../components/BlogMenu";
+
+  export default {
+    components: {BlogMenu}
+  }
+</script>
 
 <style>
   html {
@@ -22,5 +33,15 @@
   *:after {
     box-sizing: border-box;
     margin: 0;
+  }
+</style>
+
+<style lang="scss" scoped>
+  .content {
+    min-width: 280px;
+    min-height: 100vh;
+    padding: 3.25rem 0 1px;
+    background: #f5f5f5;
+    overflow: hidden;
   }
 </style>
