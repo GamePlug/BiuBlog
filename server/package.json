@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "cross-env": "^5.2.0",
+    "highlight.js": "^9.15.6",
+    "markdown-it": "^8.4.2",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",

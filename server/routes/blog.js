@@ -1,4 +1,5 @@
 const Router = require('koa-router')
+const markdown = require('../lib/markdown')
 
 const router = new Router()
 router.prefix('/blog')
@@ -11,7 +12,7 @@ router.get('/hello', async ctx => {
 // 测试
 router.all('/test', async ctx => {
   const {aaa, bbb} = "GET" === ctx.request.method ? ctx.request.query : ctx.request.body
-  ctx.body = {err: 0, message: '你好啊blog', result: aaa + '' + bbb + '@[toc](目录)\n' +
+  ctx.body = {err: 0, message: '你好啊blog', result: markdown.render(aaa + '' + bbb + '@[toc](目录)\n' +
       '\n' +
     'Markdown 语法简介\n' +
     '=============\n' +
@@ -208,7 +209,7 @@ router.all('/test', async ctx => {
     '*[W3C]:  World Wide Web Consortium\n' +
     'HTML 规范由 W3C 维护\n' +
     '```\n' +
-    '\n'}
+    '\n')}
 })
 
 module.exports = router

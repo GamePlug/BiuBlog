@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <nuxt-link class="navbar-item" to="/">
+        <nuxt-link class="navbar-item" to="/" noPrefetch>
           <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
         </nuxt-link>
         <a class="navbar-burger is-active" role="button" aria-label="menu" aria-expanded="false">
@@ -14,31 +14,31 @@
 
       <div class="navbar-menu is-active">
         <div class="navbar-start">
-          <nuxt-link class="navbar-item" to="/">
+          <nuxt-link class="navbar-item" to="/" noPrefetch>
             Home
           </nuxt-link>
-          <nuxt-link class="navbar-item" to="/blog">
+          <nuxt-link class="navbar-item" to="/blog" noPrefetch>
             Blog
           </nuxt-link>
-          <nuxt-link class="navbar-item" to="/about">
+          <nuxt-link class="navbar-item" to="/about" noPrefetch>
             About
           </nuxt-link>
-          <nuxt-link class="navbar-item" to="/contact">
+          <nuxt-link class="navbar-item" to="/contact" noPrefetch>
             Contact
           </nuxt-link>
         </div>
 
         <div class="navbar-end">
-          <nuxt-link class="navbar-item" to="/">
+          <nuxt-link class="navbar-item" to="/" noPrefetch>
             Home
           </nuxt-link>
-          <nuxt-link class="navbar-item" to="/blog">
+          <nuxt-link class="navbar-item" to="/blog" noPrefetch>
             Blog
           </nuxt-link>
-          <nuxt-link class="navbar-item" to="/about">
+          <nuxt-link class="navbar-item" to="/about" noPrefetch>
             About
           </nuxt-link>
-          <nuxt-link class="navbar-item" to="/contact">
+          <nuxt-link class="navbar-item" to="/contact" noPrefetch>
             Contact
           </nuxt-link>
         </div>

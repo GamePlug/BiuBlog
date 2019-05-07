@@ -14,4 +14,4 @@ const config = {
 
 const markdown = require('markdown-it')(config)
 
-export default markdown
+module.exports = markdown

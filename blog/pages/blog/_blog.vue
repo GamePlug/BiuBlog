@@ -5,8 +5,6 @@
 </template>
 
 <script>
-  import markdown from '@/assets/lib/markdown.js'
-
   export default {
     head() {
       return {title: '博客'}
@@ -23,7 +21,7 @@
         aaa: 'aaa',
         bbb: 'bbb'
       }).then((res) => {
-        return {model: markdown.render(res.data.result)}
+        return {model: res.data.result}
       }).catch(function (error) {
         console.log(error.stack)
       })
