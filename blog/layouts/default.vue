@@ -38,10 +38,7 @@
 
 <style lang="scss" scoped>
   .content {
-    min-width: 280px;
-    min-height: 100vh;
-    padding: 3.25rem 0 1px;
-    background: #f5f5f5;
-    overflow: hidden;
+    padding-top: 3.25rem;
+    background: #ffffff;
   }
 </style>

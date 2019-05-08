@@ -1,18 +1,27 @@
 <template>
   <div class="layout">
+    <BlogCrumb :breadcrumbs="breadcrumbs"/>
     <div class="markdown-body" v-html="model"></div>
   </div>
 </template>
 
 <script>
+  import BlogCrumb from "../../components/BlogCrumb";
+
   export default {
+    components: {BlogCrumb},
     head() {
       return {title: '博客'}
     },
 
     data() {
       return {
-        model: ''
+        model: '',
+        breadcrumbs: [
+          {name: '首页', url: '/'},
+          {name: '列表', url: '/blog/list'},
+          {name: '博客', url: ''}
+        ]
       }
     },
 
@@ -38,6 +47,7 @@
     margin: 0 auto;
     .markdown-body {
       padding: 8px 15px 25px 15px;
+      border: 1px solid #dddddd;
       background: #ffffff;
     }
   }
