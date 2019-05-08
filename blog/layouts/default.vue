@@ -34,6 +34,11 @@
     box-sizing: border-box;
     margin: 0;
   }
+
+  a {
+    color: #3273dc;
+    text-decoration: none;
+  }
 </style>
 
 <style lang="scss" scoped>

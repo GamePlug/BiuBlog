@@ -58,11 +58,11 @@
         menuData: {
           logo: '雷超',
           menuLeft: [
-            {name: '学无止境', url: '/blog'},
-            {name: '原创小说', url: '/blog/list/novel'},
-            {name: '心情随笔', url: '/share/mood'},
-            {name: '资源收藏', url: '/share/collection'},
-            {name: '留言板', url: '/share/message'}
+            {name: '博客精品', url: '/blog/list'},
+            {name: '原创小说', url: '/'},
+            {name: '心情随笔', url: '/'},
+            {name: '资源收藏', url: '/'},
+            {name: '留言板', url: '/'}
           ],
           menuMore: [],
           menuRight: [
@@ -92,8 +92,5 @@
 
   .navbar {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .08);
-    a {
-      text-decoration: none;
-    }
   }
 </style>

@@ -10,6 +10,17 @@ router.get('/hello', async ctx => {
 })
 
 // 测试
+router.all('/list/type', async ctx => {
+  ctx.body = {err: 0, message: '你好啊blog', result: [
+      {name: 'Android', id: 'android'},
+      {name: 'Java', id: 'java'},
+      {name: 'JavaScript', id: 'javascript'},
+      {name: 'Html', id: 'html'},
+      {name: 'Css', id: 'css'}
+    ]}
+})
+
+// 测试
 router.all('/test', async ctx => {
   const {aaa, bbb} = "GET" === ctx.request.method ? ctx.request.query : ctx.request.body
   ctx.body = {err: 0, message: '你好啊blog', result: markdown.render(aaa + '' + bbb + '@[toc](目录)\n' +

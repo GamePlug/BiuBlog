@@ -19,8 +19,8 @@
         model: '',
         breadcrumbs: [
           {name: '首页', url: '/'},
-          {name: '列表', url: '/blog/list'},
-          {name: '博客', url: ''}
+          {name: '博客精品', url: '/blog/list'},
+          {name: 'Java', url: '/blog/list/java'}
         ]
       }
     },

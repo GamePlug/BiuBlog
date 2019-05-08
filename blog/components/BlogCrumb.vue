@@ -32,12 +32,8 @@
     ul {
       padding: 0;
     }
-    a {
+    a:hover {
       color: #3273dc;
-      text-decoration: none;
-      &:hover {
-        color: #3273dc;
-      }
     }
   }
 </style>
