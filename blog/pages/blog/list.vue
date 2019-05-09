@@ -17,10 +17,12 @@
 <script>
   import BlogCrumb from "../../components/BlogCrumb";
 
+  const title = '博客精品'
+
   export default {
     components: {BlogCrumb},
     head() {
-      return {title: '列表'}
+      return {title: title}
     },
 
     data() {
@@ -53,10 +55,13 @@
   }
 
   function breadcrumbs(tabs, id) {
-    const cur = tabs.find(obj => obj.id === id)
+    let cur
+    if (id && id.length > 0) {
+      cur = tabs.find(obj => obj.id === id)
+    }
     const breadcrumbs = [
       {name: '首页', url: '/'},
-      {name: '博客精品', url: cur ? '/blog/list' : ''}
+      {name: title, url: cur ? '/blog/list' : ''}
     ]
     if (cur) breadcrumbs.push({name: cur.name})
     return breadcrumbs
@@ -65,7 +70,7 @@
 
 <style lang="scss" scoped>
   @import "~bulma/sass/utilities/_all.sass";
-  @import "~bulma/sass/components/tabs";
+  @import "~bulma/sass/components/tabs.sass";
 
   .layout {
     max-width: 1000px;
