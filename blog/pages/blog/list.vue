@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <BlogCrumb :breadcrumbs="breadcrumbs"/>
-    <div class="tabs is-centered">
+    <div class="tabs is-centered is-medium">
       <ul>
         <li v-for="item in tabs" :class="item.id === id ? 'is-active' : ''">
           <nuxt-link :to="`/blog/list${item.id && item.id.length > 0 ? '/'+item.id : ''}`">

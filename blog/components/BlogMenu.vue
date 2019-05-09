@@ -2,31 +2,31 @@
   <div>
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <nuxt-link class="navbar-item" to="/">
-          <img src="@/assets/images/logo.png" width="112" height="28">
+        <nuxt-link class="navbar-item blog-logo" to="/">
+          <BlogLogo/>
+          <span>雷超</span>
         </nuxt-link>
         <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"
-           :class="isActive" @click="onBurgerClick">
+           :class="activeClass" @click="onActiveChange">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
 
-      <div class="navbar-menu" :class="isActive">
+      <div class="navbar-menu" :class="activeClass">
         <div class="navbar-start">
-          <nuxt-link class="navbar-item" @click.native="onMenuClick"
+          <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
                      v-for="item in menuData.menuLeft" :key="item.url" :to="item.url">
             {{ item.name }}
           </nuxt-link>
 
-          <div class="navbar-item has-dropdown is-hoverable"
-               v-if="menuData.menuMore && menuData.menuMore.length > 0">
+          <div class="navbar-item has-dropdown is-hoverable" v-if="menuData.menuMore && menuData.menuMore.length > 0">
             <a class="navbar-link">
               更多
             </a>
             <div class="navbar-dropdown">
-              <nuxt-link class="navbar-item" @click.native="onMenuClick"
+              <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
                          v-for="item in menuData.menuMore" :key="item.url" :to="item.url">
                 {{ item.name }}
               </nuxt-link>
@@ -37,7 +37,7 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-primary" @click="onMenuClick" target="_blank"
+              <a class="button is-primary" target="_blank" @click="onActiveChange('')"
                  v-for="item in menuData.menuRight" :key="item.url" :href="item.url">
                 {{ item.name }}
               </a>
@@ -50,8 +50,11 @@
 </template>
 
 <script>
+  import BlogLogo from "./BlogLogo";
+
   export default {
     name: "BlogMenu",
+    components: {BlogLogo},
 
     data() {
       return {
@@ -59,10 +62,10 @@
           logo: '雷超',
           menuLeft: [
             {name: '博客精品', url: '/blog/list'},
-            {name: '原创小说', url: '/'},
-            {name: '心情随笔', url: '/'},
-            {name: '资源收藏', url: '/'},
-            {name: '留言板', url: '/'}
+            {name: '原创小说', url: '/1'},
+            {name: '心情随笔', url: '/2'},
+            {name: '资源收藏', url: '/3'},
+            {name: '留言板', url: '/4'}
           ],
           menuMore: [],
           menuRight: [
@@ -70,16 +73,23 @@
             {name: '后台管理', url: '/admin'}
           ]
         },
-        isActive: ''
+        activeClass: ''
       }
     },
 
     methods: {
-      onBurgerClick() {
-        this.isActive = this.isActive !== 'is-active' ? 'is-active' : ''
-      },
-      onMenuClick() {
-        this.isActive = ''
+      onActiveChange(activeClass) {
+        if (typeof activeClass === 'string') {
+          this.activeClass = activeClass
+        } else {
+          this.activeClass = this.activeClass !== 'is-active' ? 'is-active' : ''
+        }
+      }
+    },
+
+    watch: {
+      $route(to, from) {
+        this.onActiveChange('')
       }
     }
   }
@@ -92,5 +102,14 @@
 
   .navbar {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .08);
+    .blog-logo {
+      padding: 0 1rem;
+      span {
+        color: #333333;
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-left: 1rem;
+      }
+    }
   }
 </style>

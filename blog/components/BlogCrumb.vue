@@ -28,7 +28,7 @@
   @import "~bulma/sass/components/breadcrumb.sass";
 
   .breadcrumb {
-    margin: 1.5rem 15px;
+    margin: 1.5rem 1rem;
     ul {
       padding: 0;
     }

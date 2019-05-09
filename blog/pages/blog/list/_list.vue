@@ -1,23 +1,17 @@
 <template>
   <div class="layout">
-    <div v-for="item in list">
-      <nuxt-link :to="`/blog/${item.id}`">
-        <section class="hero is-primary">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
-                {{ item.name }}
-              </h1>
-              <h2 class="subtitle">
-                {{ item.name }}
-              </h2>
-              <span class="tag is-light">Android</span>
-              &nbsp;&nbsp2018-08-08 08:08
-            </div>
+    <nuxt-link v-for="item in list" :key="item.id" :to="`/blog/${item.id}`">
+      <section class="hero is-primary">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">{{ item.name }}</h1>
+            <h2 class="subtitle">{{ item.name }}</h2>
+            <span class="tag is-white">Android</span>
+            <span class="blog-time">2018-08-08 08:08</span>
           </div>
-        </section>
-      </nuxt-link>
-    </div>
+        </div>
+      </section>
+    </nuxt-link>
   </div>
 </template>
 
@@ -48,10 +42,13 @@
   @import "~bulma/sass/elements/tag.sass";
 
   .hero {
-    margin: 1.5rem 15px;
+    margin: 1.5rem 1rem;
     border-radius: 5px;
     .hero-body {
       padding: 1rem;
+    }
+    .blog-time {
+      margin-left: 1rem;
     }
   }
 </style>
