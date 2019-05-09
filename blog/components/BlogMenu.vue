@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <nuxt-link class="navbar-item" to="/" noPrefetch>
+        <nuxt-link class="navbar-item" to="/">
           <img src="@/assets/images/logo.png" width="112" height="28">
         </nuxt-link>
         <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"
@@ -15,7 +15,7 @@
 
       <div class="navbar-menu" :class="isActive">
         <div class="navbar-start">
-          <nuxt-link class="navbar-item" @click.native="onMenuClick" noPrefetch
+          <nuxt-link class="navbar-item" @click.native="onMenuClick"
                      v-for="item in menuData.menuLeft" :key="item.url" :to="item.url">
             {{ item.name }}
           </nuxt-link>
@@ -26,7 +26,7 @@
               更多
             </a>
             <div class="navbar-dropdown">
-              <nuxt-link class="navbar-item" @click.native="onMenuClick" noPrefetch
+              <nuxt-link class="navbar-item" @click.native="onMenuClick"
                          v-for="item in menuData.menuMore" :key="item.url" :to="item.url">
                 {{ item.name }}
               </nuxt-link>

@@ -3,7 +3,7 @@
     <ul>
       <template v-for="item in breadcrumbs">
         <li v-if="item.url && item.url.length !== 0">
-          <nuxt-link :to="item.url" noPrefetch>{{ item.name }}</nuxt-link>
+          <nuxt-link :to="item.url">{{ item.name }}</nuxt-link>
         </li>
         <li v-else class="is-active">
           <a aria-current="page">{{ item.name }}</a>

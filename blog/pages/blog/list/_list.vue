@@ -4,13 +4,13 @@
     <div class="tabs is-centered">
       <ul>
         <li v-for="item in tabs" :class="item.id === id ? 'is-active' : ''">
-          <nuxt-link :to="`/blog/list${item.id && item.id.length > 0 ? '/'+item.id : ''}`" noPrefetch>
+          <nuxt-link :to="`/blog/list${item.id && item.id.length > 0 ? '/'+item.id : ''}`">
             {{ item.name }}
           </nuxt-link>
         </li>
       </ul>
     </div>
-    <nuxt-link v-for="n in 40" :key="n" to="/blog/1001" noPrefetch>Markdown 语法简介<br/></nuxt-link>
+    <nuxt-link v-for="n in 40" :key="n" to="/blog/1001">Markdown 语法简介<br/></nuxt-link>
   </div>
 </template>
 

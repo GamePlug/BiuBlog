@@ -58,7 +58,8 @@ export default {
   },
 
   router: {
-    base: myConfig.blog.base
+    base: myConfig.blog.base,
+    prefetchLinks: true
   },
 
   /*
