@@ -9,18 +9,69 @@ router.get('/hello', async ctx => {
   ctx.body = {err: 0, message: '你好啊blog'}
 })
 
-// 测试
-router.all('/list/type', async ctx => {
-  ctx.body = {err: 0, message: '你好啊blog', result: [
+// 类型
+router.all('/type', async ctx => {
+  ctx.body = {
+    err: 0, message: '你好啊blog', result: [
       {name: 'Android', id: 'android'},
       {name: 'Java', id: 'java'},
       {name: 'JavaScript', id: 'javascript'},
       {name: 'Html', id: 'html'},
       {name: 'Css', id: 'css'}
-    ]}
+    ]
+  }
 })
 
-// 测试
+// 列表
+router.all('/list', async ctx => {
+  const {id} = "GET" === ctx.request.method ? ctx.request.query : ctx.request.body
+  ctx.body = {
+    err: 0, message: '你好啊blog', result: [
+      {name: '博客'+id, id: '1001'},
+      {name: '博客'+id, id: '1002'},
+      {name: '博客'+id, id: '1003'},
+      {name: '博客'+id, id: '1004'},
+      {name: '博客'+id, id: '1005'},
+      {name: '博客'+id, id: '1006'},
+      {name: '博客'+id, id: '1007'},
+      {name: '博客'+id, id: '1008'},
+      {name: '博客'+id, id: '1009'},
+      {name: '博客'+id, id: '10010'},
+      {name: '博客'+id, id: '10011'},
+      {name: '博客'+id, id: '10012'},
+      {name: '博客'+id, id: '10013'},
+      {name: '博客'+id, id: '10014'},
+      {name: '博客'+id, id: '10015'},
+      {name: '博客'+id, id: '10016'},
+      {name: '博客'+id, id: '10017'},
+      {name: '博客'+id, id: '10018'},
+      {name: '博客'+id, id: '10019'},
+      {name: '博客'+id, id: '10020'},
+      {name: '博客'+id, id: '10021'},
+      {name: '博客'+id, id: '10022'},
+      {name: '博客'+id, id: '10023'},
+      {name: '博客'+id, id: '10024'},
+      {name: '博客'+id, id: '10025'},
+      {name: '博客'+id, id: '10026'},
+      {name: '博客'+id, id: '10027'},
+      {name: '博客'+id, id: '10028'},
+      {name: '博客'+id, id: '10029'},
+      {name: '博客'+id, id: '10030'},
+      {name: '博客'+id, id: '10031'},
+      {name: '博客'+id, id: '10032'},
+      {name: '博客'+id, id: '10033'},
+      {name: '博客'+id, id: '10034'},
+      {name: '博客'+id, id: '10035'},
+      {name: '博客'+id, id: '10036'},
+      {name: '博客'+id, id: '10037'},
+      {name: '博客'+id, id: '10038'},
+      {name: '博客'+id, id: '10039'},
+      {name: '博客'+id, id: '10040'}
+    ]
+  }
+})
+
+// 博客
 router.all('/test', async ctx => {
   const {aaa, bbb} = "GET" === ctx.request.method ? ctx.request.query : ctx.request.body
   ctx.body = {err: 0, message: '你好啊blog', result: markdown.render(aaa + '' + bbb + '@[toc](目录)\n' +
