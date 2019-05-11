@@ -17,7 +17,7 @@
 <script>
   import BlogCrumb from "../../components/BlogCrumb";
 
-  const title = '博客精品'
+  const title = '精品博客'
 
   export default {
     components: {BlogCrumb},

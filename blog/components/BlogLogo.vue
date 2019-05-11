@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" :style="`--radius: ${radius};`">
     <div class="l"></div>
     <div class="r"></div>
     <div class="c">
@@ -11,11 +11,18 @@
 
 <script>
   export default {
-    name: "BlogLogo"
+    name: "BlogLogo",
+
+    props: {
+      radius: {
+        type: String,
+        default: '1rem'
+      }
+    }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .box {
     --radius: 1rem;
     width: calc(var(--radius) * 2);
@@ -30,43 +37,38 @@
     -webkit-animation: cd 2000ms infinite linear;
     -o-animation: cd 2000ms infinite linear;
     animation: cd 2000ms infinite linear;
-  }
-
-  .l {
-    width: var(--radius);
-    height: inherit;
-    background-color: #000;
-  }
-
-  .r {
-    width: var(--radius);
-    height: inherit;
-    background-color: #ddd;
-  }
-
-  .c {
-    width: var(--radius);
-    height: inherit;
-    position: absolute;
-    margin-left: calc(var(--radius) / -2);
-    left: 50%;
-    top: 0;
-  }
-
-  .wc {
-    width: var(--radius);
-    height: var(--radius);
-    border: calc(var(--radius) / 3) solid #ddd;
-    background-color: #000;
-    border-radius: 50%;
-  }
-
-  .bc {
-    width: var(--radius);
-    height: var(--radius);
-    border: calc(var(--radius) / 3) solid #000;
-    background-color: #ddd;
-    border-radius: 50%;
+    .l {
+      width: var(--radius);
+      height: inherit;
+      background-color: #000;
+    }
+    .r {
+      width: var(--radius);
+      height: inherit;
+      background-color: #ddd;
+    }
+    .c {
+      width: var(--radius);
+      height: inherit;
+      position: absolute;
+      margin-left: calc(var(--radius) / -2);
+      left: 50%;
+      top: 0;
+      .wc {
+        width: var(--radius);
+        height: var(--radius);
+        border: calc(var(--radius) / 3) solid #ddd;
+        background-color: #000;
+        border-radius: 50%;
+      }
+      .bc {
+        width: var(--radius);
+        height: var(--radius);
+        border: calc(var(--radius) / 3) solid #000;
+        background-color: #ddd;
+        border-radius: 50%;
+      }
+    }
   }
 
   @-webkit-keyframes cd {

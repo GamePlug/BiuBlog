@@ -1,17 +1,21 @@
 <template>
   <div class="layout">
-    <nuxt-link v-for="item in list" :key="item.id" :to="`/blog/${item.id}`">
-      <section class="hero is-primary">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title">{{ item.name }}</h1>
-            <h2 class="subtitle">{{ item.name }}</h2>
-            <span class="tag is-white">Android</span>
-            <span class="blog-time">2018-08-08 08:08</span>
-          </div>
-        </div>
-      </section>
-    </nuxt-link>
+    <div class="columns" v-for="r in Math.ceil(list.length/num)">
+      <div class="column" v-for="c in num" v-if="item = getItem(r, c)" :class="getClass()">
+        <nuxt-link :to="`/blog/${item.id}`">
+          <section class="hero is-light">
+            <div class="hero-body">
+              <div class="container">
+                <h1 class="title">{{ item.name }}</h1>
+                <h2 class="subtitle">{{ item.name }}</h2>
+                <span class="tag is-white">Android</span>
+                <span class="blog-time">2018-08-08 08:08</span>
+              </div>
+            </div>
+          </section>
+        </nuxt-link>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,6 +23,7 @@
   export default {
     data() {
       return {
+        num: 2,
         list: []
       }
     },
@@ -31,6 +36,18 @@
       }).catch(function (error) {
         console.log(error.stack)
       })
+    },
+
+    methods: {
+      getItem(r, c) {
+        const index = (r - 1) * this.num + c - 1
+        return this.list[index]
+      },
+      getClass() {
+        if (12 % this.num === 0) {
+          return `is-${12 / this.num}`
+        }
+      }
     }
   }
 </script>
@@ -40,15 +57,26 @@
   @import "~bulma/sass/layout/hero.sass";
   @import "~bulma/sass/elements/title.sass";
   @import "~bulma/sass/elements/tag.sass";
+  @import "~bulma/sass/grid/columns.sass";
 
-  .hero {
-    margin: 1.5rem 1rem;
-    border-radius: 5px;
-    .hero-body {
-      padding: 1rem;
-    }
-    .blog-time {
-      margin-left: 1rem;
+  .layout {
+    padding-bottom: 1.5rem;
+    .columns {
+      margin-left: 0;
+      margin-right: 0;
+      .hero {
+        border-radius: 5px;
+        &:hover {
+          background-color: #eeeeee;
+        }
+        .hero-body {
+          padding: 1rem;
+        }
+        .blog-time {
+          margin-left: 1rem;
+          color: #666666;
+        }
+      }
     }
   }
 </style>

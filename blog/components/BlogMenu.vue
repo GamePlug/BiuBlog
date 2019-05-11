@@ -2,8 +2,8 @@
   <div>
     <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <nuxt-link class="navbar-item blog-logo" to="/">
-          <BlogLogo/>
+        <nuxt-link class="navbar-item blog-logo" to="/" @click.native="onActiveChange('')">
+          <BlogLogo radius="1rem"/>
           <span>雷超</span>
         </nuxt-link>
         <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"
@@ -37,9 +37,9 @@
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
-              <a class="button is-primary" target="_blank" @click="onActiveChange('')"
+              <a class="button is-light" target="_blank" @click="onActiveChange('')"
                  v-for="item in menuData.menuRight" :key="item.url" :href="item.url">
-                {{ item.name }}
+                <strong>{{ item.name }}</strong>
               </a>
             </div>
           </div>
@@ -61,15 +61,15 @@
         menuData: {
           logo: '雷超',
           menuLeft: [
-            {name: '博客精品', url: '/blog/list'},
-            {name: '原创小说', url: '/1'},
-            {name: '心情随笔', url: '/2'},
-            {name: '资源收藏', url: '/3'},
-            {name: '留言板', url: '/4'}
+            {name: '精品博客', url: '/blog/list'},
+            {name: '原创小说', url: '/beta/原创小说'},
+            {name: '心情随笔', url: '/beta/心情随笔'},
+            {name: '推荐收藏', url: '/beta/推荐收藏'},
+            {name: '留言板', url: '/beta/留言板'}
           ],
           menuMore: [],
           menuRight: [
-            {name: 'Github', url: '/github'},
+            {name: 'Github', url: 'https://github.com/GamePlug/BiuBlog'},
             {name: '后台管理', url: '/admin'}
           ]
         },
