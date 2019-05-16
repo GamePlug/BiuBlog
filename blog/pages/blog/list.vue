@@ -34,13 +34,14 @@
     },
 
     asyncData({params, $axios}) {
-      return $axios.post('blog/type').then((res) => {
+      return $axios.post('blog/type/list').then((res) => {
         // tabs
         const tabs = res.data.result
-        tabs.unshift({name: '全部', id: ''})
+        tabs.unshift({id: '', name: '全部', sort: 0})
         // breadcrumbs
         const id = params.list || ''
-        return {tabs: tabs, breadcrumbs: breadcrumbs(tabs, id)}
+        const breadcrumbs = getBreadcrumbs(tabs, id)
+        return {tabs, breadcrumbs}
       }).catch(function (error) {
         console.log(error.stack)
       })
@@ -49,12 +50,12 @@
     watch: {
       $route(to, from) {
         this.id = to.params.list || ''
-        this.breadcrumbs = breadcrumbs(this.tabs, this.id)
+        this.breadcrumbs = getBreadcrumbs(this.tabs, this.id)
       }
     }
   }
 
-  function breadcrumbs(tabs, id) {
+  function getBreadcrumbs(tabs, id) {
     let cur
     if (id && id.length > 0) {
       cur = tabs.find(obj => obj.id === id)

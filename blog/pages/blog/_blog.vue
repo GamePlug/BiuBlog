@@ -26,11 +26,21 @@
     },
 
     asyncData({params, $axios}) {
-      return $axios.post('blog/test', {
-        aaa: 'aaa',
-        bbb: 'bbb'
+      return $axios.post('blog/one', {
+        id: params.blog || ''
       }).then((res) => {
-        return {model: res.data.result}
+        const blog = res.data.result
+        // model
+        const model = blog.content
+        // breadcrumbs
+        const breadcrumbs = [
+          {name: '首页', url: '/'},
+          {name: '博客精品', url: '/blog/list'}
+        ]
+        if (blog.type) {
+          breadcrumbs.push({name: blog.type.name, url:`/blog/list/${blog.type.id}`})
+        }
+        return {model, breadcrumbs}
       }).catch(function (error) {
         console.log(error.stack)
       })

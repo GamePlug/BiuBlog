@@ -1,23 +1,21 @@
 const mongoose = require('mongoose')
-
 const Schema = mongoose.Schema
 
-//  博客对象模型
-const Blog = new Schema({
+// 博客类型
+const BlogType = mongoose.model('BlogType', new Schema({
+  name: String,
+  sort: {type: Number, default: 0}
+}))
+
+// 博客
+const Blog = mongoose.model('Blog', new Schema({
   title: String,
   content: String,
-  type: String,
-  data: { type: String, default: Date.now },
-})
+  date: {type: String, default: Date.now},
+  type: {type: Schema.ObjectId, ref: BlogType.modelName}
+}))
 
-//  博客类型对象模型
-const BlogType = new Schema({
-  name: String,
-})
-
-const blog = {
-  Blog: mongoose.model('Blog', Blog),
-  BlogType: mongoose.model('BlogType', BlogType),
+module.exports = {
+  BlogType,
+  Blog
 }
-
-module.exports = blog

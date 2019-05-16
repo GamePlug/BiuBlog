@@ -1,277 +1,149 @@
 const Router = require('koa-router')
-const markdown = require('../lib/markdown')
+const db = require('../models')
+const util = require('../lib/util')
 
 const router = new Router()
 router.prefix('/blog')
 
-// 你好
-router.get('/hello', async ctx => {
-  ctx.body = {err: 0, message: '你好啊blog'}
+// 新增博客类型
+router.all('/type/add', async ctx => {
+  const {name, sort} = util.getParams(ctx)
+  if (util.checkParamsIsEmpty(ctx, {name})) return
+  const type = {name, sort}
+  const item = await new db.BlogType(type).save()
+  util.setBodySuccess(ctx, util.getBlogTypeBody(item))
 })
 
-// 类型
-router.all('/type', async ctx => {
-  ctx.body = {
-    err: 0, message: '你好啊blog', result: [
-      {name: 'Android', id: 'android'},
-      {name: 'Java', id: 'java'},
-      {name: 'JavaScript', id: 'javascript'},
-      {name: 'Html', id: 'html'},
-      {name: 'Css', id: 'css'}
-    ]
+// 删除博客类型
+router.all('/type/delete', async ctx => {
+  const {id} = util.getParams(ctx)
+  if (util.checkParamsNotId(ctx, {id})) return
+  const result = await db.BlogType.deleteOne({_id: id})
+  if (result.deletedCount === 0) {
+    util.setBodyError(ctx, '该博客类型不存在')
+    return
   }
+  util.setBodySuccess(ctx, {})
 })
 
-// 列表
+// 修改博客类型
+router.all('/type/update', async ctx => {
+  const {id, name, sort} = util.getParams(ctx)
+  if (util.checkParamsNotId(ctx, {id})) return
+  const type = {}
+  if (name) type.name = name
+  if (sort) {
+    if (util.checkParamsNotInt(ctx, {sort})) return
+    type.sort = sort
+  }
+  if (Object.keys(type).length === 0) {
+    util.setBodyError(ctx, '缺少要修改的参数')
+    return
+  }
+  const result = await db.BlogType.updateOne({_id: id}, type)
+  if (result.n === 0) {
+    util.setBodyError(ctx, '该博客类型不存在')
+    return
+  }
+  util.setBodySuccess(ctx, {})
+})
+
+// 获取博客类型列表
+router.all('/type/list', async ctx => {
+  const list = await db.BlogType.find({}).sort({sort: 1})
+  util.setBodySuccess(ctx, list.map((item) => {
+    return util.getBlogTypeBody(item)
+  }))
+})
+
+// 新增博客
+router.all('/add', async ctx => {
+  const {title, content, date, type} = util.getParams(ctx)
+  if (util.checkParamsIsEmpty(ctx, {title, content})) return
+  if (util.checkParamsNotId(ctx, {type})) return
+  if (!await db.BlogType.findOne({_id: type})) {
+    util.setBodyError(ctx, '博客类型不存在')
+    return
+  }
+  const blog = {title, content, date, type}
+  const save = await new db.Blog(blog).save()
+  const item = await db.Blog.findOne({_id: save._id}).populate(util.populateBlogType())
+  util.setBodySuccess(ctx, util.getBlogBody(item))
+})
+
+// 删除博客
+router.all('/delete', async ctx => {
+  const {id} = util.getParams(ctx)
+  if (util.checkParamsNotId(ctx, {id})) return
+  const item = await db.Blog.findOne({_id: id}).populate(util.populateBlogType())
+  if (!item) {
+    util.setBodyError(ctx, '该博客不存在')
+    return
+  }
+  const result = await db.Blog.deleteOne({_id: id})
+  if (result.deletedCount === 0) {
+    util.setBodyError(ctx, '该博客不存在')
+    return
+  }
+  util.setBodySuccess(ctx, util.getBlogBody(item))
+})
+
+// 修改博客
+router.all('/update', async ctx => {
+  const {id, title, content, date, type} = util.getParams(ctx)
+  if (util.checkParamsNotId(ctx, {id})) return
+  const blog = {}
+  if (title) blog.title = title
+  if (content) blog.content = content
+  if (date) blog.date = date
+  if (type) {
+    if (!await db.BlogType.findOne({_id: type})) {
+      util.setBodyError(ctx, '博客类型不存在')
+      return
+    }
+    blog.type = type
+  }
+  if (Object.keys(blog).length === 0) {
+    util.setBodyError(ctx, '缺少要修改的参数')
+    return
+  }
+  const result = await db.Blog.updateOne({_id: id}, blog)
+  if (result.n === 0) {
+    util.setBodyError(ctx, '该博客不存在')
+    return
+  }
+  const item = await db.Blog.findOne({_id: id}).populate(util.populateBlogType())
+  if (!item) {
+    util.setBodyError(ctx, '该博客不存在')
+    return
+  }
+  util.setBodySuccess(ctx, util.getBlogBody(item))
+})
+
+// 获取博客列表
 router.all('/list', async ctx => {
-  const {id} = "GET" === ctx.request.method ? ctx.request.query : ctx.request.body
-  ctx.body = {
-    err: 0, message: '你好啊blog', result: [
-      {name: '博客'+id, id: '1001'},
-      {name: '博客'+id, id: '1002'},
-      {name: '博客'+id, id: '1003'},
-      {name: '博客'+id, id: '1004'},
-      {name: '博客'+id, id: '1005'},
-      {name: '博客'+id, id: '1006'},
-      {name: '博客'+id, id: '1007'},
-      {name: '博客'+id, id: '1008'},
-      {name: '博客'+id, id: '1009'},
-      {name: '博客'+id, id: '10010'},
-      {name: '博客'+id, id: '10011'},
-      {name: '博客'+id, id: '10012'},
-      {name: '博客'+id, id: '10013'},
-      {name: '博客'+id, id: '10014'},
-      {name: '博客'+id, id: '10015'},
-      {name: '博客'+id, id: '10016'},
-      {name: '博客'+id, id: '10017'},
-      {name: '博客'+id, id: '10018'},
-      {name: '博客'+id, id: '10019'},
-      {name: '博客'+id, id: '10020'},
-      {name: '博客'+id, id: '10021'},
-      {name: '博客'+id, id: '10022'},
-      {name: '博客'+id, id: '10023'},
-      {name: '博客'+id, id: '10024'},
-      {name: '博客'+id, id: '10025'},
-      {name: '博客'+id, id: '10026'},
-      {name: '博客'+id, id: '10027'},
-      {name: '博客'+id, id: '10028'},
-      {name: '博客'+id, id: '10029'},
-      {name: '博客'+id, id: '10030'},
-      {name: '博客'+id, id: '10031'},
-      {name: '博客'+id, id: '10032'},
-      {name: '博客'+id, id: '10033'},
-      {name: '博客'+id, id: '10034'},
-      {name: '博客'+id, id: '10035'},
-      {name: '博客'+id, id: '10036'},
-      {name: '博客'+id, id: '10037'},
-      {name: '博客'+id, id: '10038'},
-      {name: '博客'+id, id: '10039'},
-      {name: '博客'+id, id: '10040'}
-    ]
+  const {type} = util.getParams(ctx)
+  const condition = {}
+  if (type) {
+    if (util.checkParamsNotId(ctx, {type})) return
+    condition.type = type
   }
+  const list = await db.Blog.find(condition).populate(util.populateBlogType()).sort({date: -1})
+  util.setBodySuccess(ctx, list.map((item) => {
+    return util.getBlogBody(item)
+  }))
 })
 
-// 博客
-router.all('/test', async ctx => {
-  const {aaa, bbb} = "GET" === ctx.request.method ? ctx.request.query : ctx.request.body
-  ctx.body = {err: 0, message: '你好啊blog', result: markdown.render(aaa + '' + bbb + '@[toc](目录)\n' +
-      '\n' +
-    'Markdown 语法简介\n' +
-    '=============\n' +
-    '> [语法详解](http://commonmark.org/help/)\n' +
-    '\n' +
-    '## **粗体**\n' +
-    '```\n' +
-    '**粗体**\n' +
-    '__粗体__\n' +
-    '```\n' +
-    '## *斜体*\n' +
-    '```\n' +
-    '*斜体*\n' +
-    '_斜体_\n' +
-    '```\n' +
-    '## 标题\n' +
-    '```\n' +
-    '# 一级标题 #\n' +
-    '一级标题\n' +
-    '====\n' +
-    '## 二级标题 ##\n' +
-    '二级标题\n' +
-    '----\n' +
-    '### 三级标题 ###\n' +
-    '#### 四级标题 ####\n' +
-    '##### 五级标题 #####\n' +
-    '###### 六级标题 ######\n' +
-    '```\n' +
-    '## 分割线\n' +
-    '```\n' +
-    '***\n' +
-    '---\n' +
-    '```\n' +
-    '****\n' +
-    '## ^上^角~下~标\n' +
-    '```\n' +
-    '上角标 x^2^\n' +
-    '下角标 H~2~0\n' +
-    '```\n' +
-    '## ++下划线++ ~~中划线~~\n' +
-    '```\n' +
-    '++下划线++\n' +
-    '~~中划线~~\n' +
-    '```\n' +
-    '## ==标记==\n' +
-    '```\n' +
-    '==标记==\n' +
-    '```\n' +
-    '## 段落引用\n' +
-    '```\n' +
-    '> 一级\n' +
-    '>> 二级\n' +
-    '>>> 三级\n' +
-    '...\n' +
-    '```\n' +
-    '\n' +
-    '## 列表\n' +
-    '```\n' +
-    '有序列表\n' +
-    '1.\n' +
-    '2.\n' +
-    '3.\n' +
-    '...\n' +
-    '无序列表\n' +
-    '-\n' +
-    '-\n' +
-    '...\n' +
-    '```\n' +
-    '\n' +
-    '## 任务列表\n' +
-    '\n' +
-    '- [x] 已完成任务\n' +
-    '- [ ] 未完成任务\n' +
-    '\n' +
-    '```\n' +
-    '- [x] 已完成任务\n' +
-    '- [ ] 未完成任务\n' +
-    '```\n' +
-    '\n' +
-    '## 链接\n' +
-    '```\n' +
-    '[链接](www.baidu.com)\n' +
-    '![图片描述](http://www.image.com)\n' +
-    '```\n' +
-    '## 代码段落\n' +
-    '\\``` type\n' +
-    '\n' +
-    '代码段落\n' +
-    '\n' +
-    '\\```\n' +
-    '\n' +
-    '\\` 代码块 \\`\n' +
-    '\n' +
-    '```c++\n' +
-    'int main()\n' +
-    '{\n' +
-    '    printf("hello world!");\n' +
-    '}\n' +
-    '```\n' +
-    '`code`\n' +
-    '## 表格(table)\n' +
-    '```\n' +
-    '| 标题1 | 标题2 | 标题3 |\n' +
-    '| :--  | :--: | ----: |\n' +
-    '| 左对齐 | 居中 | 右对齐 |\n' +
-    '| ---------------------- | ------------- | ----------------- |\n' +
-    '```\n' +
-    '| 标题1 | 标题2 | 标题3 |\n' +
-    '| :--  | :--: | ----: |\n' +
-    '| 左对齐 | 居中 | 右对齐 |\n' +
-    '| ---------------------- | ------------- | ----------------- |\n' +
-    '## 脚注(footnote)\n' +
-    '```\n' +
-    'hello[^hello]\n' +
-    '```\n' +
-    '\n' +
-    '见底部脚注[^hello]\n' +
-    '\n' +
-    '[^hello]: 一个注脚\n' +
-    '\n' +
-    '## 表情(emoji)\n' +
-    '[参考网站: https://www.webpagefx.com/tools/emoji-cheat-sheet/](https://www.webpagefx.com/tools/emoji-cheat-sheet/)\n' +
-    '```\n' +
-    ':laughing:\n' +
-    ':blush:\n' +
-    ':smiley:\n' +
-    ':)\n' +
-    '...\n' +
-    '```\n' +
-    ':laughing::blush::smiley::)\n' +
-    '\n' +
-    '## $\\KaTeX$公式\n' +
-    '\n' +
-    '我们可以渲染公式例如：$x_i + y_i = z_i$和$\\sum_{i=1}^n a_i=0$\n' +
-    '我们也可以单行渲染\n' +
-    '$$\\sum_{i=1}^n a_i=0$$\n' +
-    '具体可参照[katex文档](http://www.intmath.com/cg5/katex-mathjax-comparison.php)和[katex支持的函数](https://github.com/Khan/KaTeX/wiki/Function-Support-in-KaTeX)以及[latex文档](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)\n' +
-    '\n' +
-    '## 布局\n' +
-    '\n' +
-    '::: hljs-left\n' +
-    '`::: hljs-left`\n' +
-    '`居左`\n' +
-    '`:::`\n' +
-    ':::\n' +
-    '\n' +
-    '::: hljs-center\n' +
-    '`::: hljs-center`\n' +
-    '`居中`\n' +
-    '`:::`\n' +
-    ':::\n' +
-    '\n' +
-    '::: hljs-right\n' +
-    '`::: hljs-right`\n' +
-    '`居右`\n' +
-    '`:::`\n' +
-    ':::\n' +
-    '\n' +
-    '## 定义\n' +
-    '\n' +
-    '术语一\n' +
-    '\n' +
-    ':   定义一\n' +
-    '\n' +
-    '包含有*行内标记*的术语二\n' +
-    '\n' +
-    ':   定义二\n' +
-    '\n' +
-    '        {一些定义二的文字或代码}\n' +
-    '\n' +
-    '    定义二的第三段\n' +
-    '\n' +
-    '```\n' +
-    '术语一\n' +
-    '\n' +
-    ':   定义一\n' +
-    '\n' +
-    '包含有*行内标记*的术语二\n' +
-    '\n' +
-    ':   定义二\n' +
-    '\n' +
-    '        {一些定义二的文字或代码}\n' +
-    '\n' +
-    '    定义二的第三段\n' +
-    '\n' +
-    '```\n' +
-    '\n' +
-    '## abbr\n' +
-    '*[HTML]: Hyper Text Markup Language\n' +
-    '*[W3C]:  World Wide Web Consortium\n' +
-    'HTML 规范由 W3C 维护\n' +
-    '```\n' +
-    '*[HTML]: Hyper Text Markup Language\n' +
-    '*[W3C]:  World Wide Web Consortium\n' +
-    'HTML 规范由 W3C 维护\n' +
-    '```\n' +
-    '\n')}
+// 获取博客
+router.all('/one', async ctx => {
+  const {id} = util.getParams(ctx)
+  if (util.checkParamsNotId(ctx, {id})) return
+  const item = await db.Blog.findOne({_id: id}).populate(util.populateBlogType())
+  if (!item) {
+    util.setBodyError(ctx, '该博客不存在')
+    return
+  }
+  util.setBodySuccess(ctx, util.getBlogBody(item, true))
 })
 
 module.exports = router

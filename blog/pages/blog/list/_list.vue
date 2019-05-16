@@ -6,10 +6,10 @@
           <section class="hero is-light">
             <div class="hero-body">
               <div class="container">
-                <h1 class="title">{{ item.name }}</h1>
-                <h2 class="subtitle">{{ item.name }}</h2>
-                <span class="tag is-white">Android</span>
-                <span class="blog-time">2018-08-08 08:08</span>
+                <h1 class="title">{{ item.title }}</h1>
+                <h2 class="subtitle">{{ item.content }}</h2>
+                <span class="tag is-white">{{item.type ? item.type.name : '暂无分类'}}</span>
+                <span class="blog-time">{{ item.date }}</span>
               </div>
             </div>
           </section>
@@ -30,7 +30,7 @@
 
     asyncData({params, $axios}) {
       return $axios.post('blog/list', {
-        id: params.list || ''
+        type: params.list || ''
       }).then((res) => {
         return {list: res.data.result}
       }).catch(function (error) {
