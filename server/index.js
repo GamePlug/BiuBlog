@@ -10,7 +10,7 @@ async function start() {
     try {
       await next()
       if (ctx.status === 404) {
-        ctx.throw(404);
+        ctx.throw(404)
       }
     } catch (err) {
       ctx.status = err.statusCode || err.status || 500
@@ -22,13 +22,18 @@ async function start() {
   // Add bodyparser
   app.use(bodyparser({enableTypes: ['json', 'form', 'text']}))
 
+  // Add filters
+  const filters = require('./filters')
+  filters.forEach(filter => {
+    app.use(filter())
+  })
+
   // Add routes
   const routes = require('./routes')
-  for (let i = 0; i < routes.length; i++) {
-    const router = routes[i]
+  routes.forEach(router => {
     router.prefix(myConfig.server.base)
     app.use(router.routes())
-  }
+  })
 
   const host = myConfig.server.host
   const port = myConfig.server.port

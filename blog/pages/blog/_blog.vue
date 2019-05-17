@@ -56,7 +56,7 @@
     max-width: 1000px;
     margin: 0 auto;
     .markdown-body {
-      padding: 1rem 1rem 2rem;
+      padding: 1.5rem 1rem;
       border: 1px solid #dddddd;
       background: #ffffff;
     }
