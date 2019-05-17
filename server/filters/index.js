@@ -1,5 +1,6 @@
 const filters = [
-  require('./sign')
+  require('./sign'),
+  require('./login')
 ]
 
 module.exports = filters

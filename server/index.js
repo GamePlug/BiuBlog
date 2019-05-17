@@ -1,5 +1,5 @@
 const Koa = require('koa')
-const bodyparser = require('koa-bodyparser')
+const koaBody = require('koa-body')
 const myConfig = require('../config')
 
 const app = new Koa()
@@ -19,13 +19,20 @@ async function start() {
     }
   })
 
-  // Add bodyparser
-  app.use(bodyparser({enableTypes: ['json', 'form', 'text']}))
+  // Add koa-body
+  app.use(koaBody({
+    multipart: true,
+    formidable: {
+      uploadDir: '../../upload/',
+      keepExtensions: true,
+      maxFieldsSize: 5 * 1024 * 1024
+    }
+  }))
 
   // Add filters
   const filters = require('./filters')
   filters.forEach(filter => {
-    app.use(filter())
+    app.use(filter)
   })
 
   // Add routes
