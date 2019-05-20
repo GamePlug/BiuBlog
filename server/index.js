@@ -32,7 +32,8 @@ async function start() {
   // Add filters
   const filters = require('./filters')
   filters.forEach(filter => {
-    app.use(filter)
+    filter.prefix(myConfig.server.base)
+    app.use(filter.filters())
   })
 
   // Add routes

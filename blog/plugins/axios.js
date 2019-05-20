@@ -42,7 +42,7 @@ export default function ({$axios, redirect}) {
   $axios.interceptors.response.use(
     res => {
       switch (res.data.err) {
-        case 2:
+        case 3:
           redirect('/user/login')
           break
       }
