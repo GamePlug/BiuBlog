@@ -23,26 +23,28 @@ Filter.prototype.match = function (path, pass, fn) {
 Filter.prototype.filters = function () {
   const stack = this.stack
   const prefix = this.opts.prefix
-  return async function (ctx, next) {
+  return async (ctx, next) => {
+    let index = 0
+    let filterNext = () => {
+      index++
+    }
     const {URL: {pathname}} = ctx.request
     for (let i = 0; i < stack.length; i++) {
+      if (index !== i) break
       const match = stack[i]
-      let isVerify = false
+      let isMatch = false
       if (pathname.startsWith(prefix + match.path)) {
-        isVerify = true
+        isMatch = true
         for (let i = 0; i < match.pass.length; i++) {
-          const curPath = prefix + match.path + match.pass[i]
-          if (curPath === pathname) {
-            isVerify = false
+          if (pathname === prefix + match.path + match.pass[i]) {
+            isMatch = false
             break
           }
         }
-        if (isVerify && match.fn(ctx)) {
-          return
-        }
       }
+      const thatNext = index === stack.length - 1 ? next : filterNext
+      isMatch ? await match.fn(ctx, thatNext) : await thatNext()
     }
-    await next()
   }
 }
 
