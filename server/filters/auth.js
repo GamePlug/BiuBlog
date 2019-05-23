@@ -5,7 +5,7 @@ const filter = new Filter()
 filter.prefix('')
 
 // 签名验证
-filter.match('', [], async (ctx, next) => {
+filter.all('', [], async (ctx, next) => {
   const {headers: {_sign}} = ctx.request
   if (_sign !== 'chenqiaojun') {
     util.setBody(ctx, 2, 'Signature failed')
@@ -15,7 +15,7 @@ filter.match('', [], async (ctx, next) => {
 })
 
 // 登录验证
-filter.match('', [
+filter.all('', [
   '/blog/type/list',
   '/blog/list',
   '/blog/one'
