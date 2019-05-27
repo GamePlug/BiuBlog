@@ -1,17 +1,17 @@
 <template>
   <div>
-    <BlogMenu/>
-    <div class="blog-content">
+    <BiuMenu/>
+    <div class="biu-content">
       <nuxt/>
     </div>
   </div>
 </template>
 
 <script>
-  import BlogMenu from "../components/BlogMenu";
+  import BiuMenu from "../components/BiuMenu";
 
   export default {
-    components: {BlogMenu}
+    components: {BiuMenu}
   }
 </script>
 
@@ -42,7 +42,7 @@
 </style>
 
 <style lang="scss" scoped>
-  .blog-content {
+  .biu-content {
     padding-top: 3.25rem;
     background: #ffffff;
   }

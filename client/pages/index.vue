@@ -1,10 +1,10 @@
 <template>
-  <div class="blog-layout">
+  <div class="biu-layout">
     <h1>
-      <BlogText class="blog-welcome" text="欢迎访问雷超的个人网页，愿您浏览愉快，健康成长！"/>
+      <BlogText class="biu-welcome" text="欢迎访问雷超的个人网页，愿您浏览愉快，健康成长！"/>
     </h1>
-    <div class="blog-start">
-      <nuxt-link class="blog-btn" to="/blog/list">
+    <div class="biu-start">
+      <nuxt-link class="biu-btn" to="/blog/list">
         开启神奇之旅
       </nuxt-link>
     </div>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import BlogText from "../components/BlogText";
+  import BlogText from "../components/BiuText";
 
   export default {
     components: {BlogText},
@@ -23,16 +23,16 @@
 </script>
 
 <style lang="scss" scoped>
-  .blog-layout {
+  .biu-layout {
     max-width: 1000px;
     margin: 0 auto;
-    .blog-welcome {
+    .biu-welcome {
       margin-top: 2rem;
     }
-    .blog-start {
+    .biu-start {
       margin-top: 10rem;
       text-align: center;
-      .blog-btn {
+      .biu-btn {
         display: inline-block;
         font-size: 1.2rem;
         color: #ffffff;

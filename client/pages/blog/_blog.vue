@@ -1,11 +1,11 @@
 <template>
-  <div class="blog-layout">
-    <BlogCrumb :breadcrumbs="breadcrumbs"/>
-    <div class="blog-item">
-      <h2 class="blog-title">{{ blog.title }}</h2>
-      <div class="blog-label">
-        <span class="blog-time">时间：{{ util.formatTime(blog.date) }}</span>
-        <span class="blog-type">分类：{{blog.type ? blog.type.name : '暂无'}}</span>
+  <div class="biu-layout">
+    <BiuCrumb :breadcrumbs="breadcrumbs"/>
+    <div class="biu-item">
+      <h2 class="biu-title">{{ blog.title }}</h2>
+      <div class="biu-label">
+        <span class="biu-time">时间：{{ util.formatTime(blog.date) }}</span>
+        <span class="biu-type">分类：{{blog.type ? blog.type.name : '暂无'}}</span>
       </div>
     </div>
     <div class="markdown-body" v-html="blog.content"></div>
@@ -14,10 +14,10 @@
 
 <script>
   import util from "../../assets/lib/util"
-  import BlogCrumb from "../../components/BlogCrumb";
+  import BiuCrumb from "../../components/BiuCrumb";
 
   export default {
-    components: {BlogCrumb},
+    components: {BiuCrumb},
     head() {
       return {title: '博客'}
     },
@@ -57,20 +57,20 @@
 <style src="github-markdown-css/github-markdown.css"></style>
 
 <style lang="scss" scoped>
-  .blog-layout {
+  .biu-layout {
     max-width: 1000px;
     margin: 0 auto;
-    .blog-item {
+    .biu-item {
       text-align: center;
       margin-bottom: 1.5rem;
-      .blog-title {
+      .biu-title {
         margin-bottom: 0.5rem;
         color: #333333;
       }
-      .blog-label {
+      .biu-label {
         font-size: 0.9rem;
         color: #919898;
-        .blog-type {
+        .biu-type {
           margin-left: 1rem;
         }
       }

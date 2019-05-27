@@ -1,6 +1,6 @@
 <template>
-  <div class="blog-layout">
-    <BlogCrumb :breadcrumbs="breadcrumbs"/>
+  <div class="biu-layout">
+    <BiuCrumb :breadcrumbs="breadcrumbs"/>
     <div class="tabs is-centered is-medium">
       <ul>
         <li v-for="item in tabs" :class="item.id === id ? 'is-active' : ''">
@@ -15,12 +15,12 @@
 </template>
 
 <script>
-  import BlogCrumb from "../../components/BlogCrumb";
+  import BiuCrumb from "../../components/BiuCrumb";
 
   const title = '精品博客'
 
   export default {
-    components: {BlogCrumb},
+    components: {BiuCrumb},
     head() {
       return {title: title}
     },
@@ -73,7 +73,7 @@
   @import "~bulma/sass/utilities/_all.sass";
   @import "~bulma/sass/components/tabs.sass";
 
-  .blog-layout {
+  .biu-layout {
     max-width: 1000px;
     margin: 0 auto;
     .tabs {

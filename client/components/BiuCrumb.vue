@@ -15,7 +15,7 @@
 
 <script>
   export default {
-    name: "BlogCrumb",
+    name: "BiuCrumb",
 
     props: {
       breadcrumbs: Array

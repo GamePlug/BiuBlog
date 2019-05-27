@@ -1,7 +1,7 @@
 const myConfig = require('../config')
 
 module.exports = {
-  publicPath: `${myConfig.blog.base}${myConfig.admin.base}`,
+  publicPath: `${myConfig.client.base}${myConfig.admin.base}`,
   devServer: {
     host: myConfig.admin.host,
     port: myConfig.admin.port,

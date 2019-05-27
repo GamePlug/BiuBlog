@@ -1,12 +1,12 @@
 <template>
-  <div class="blog-text">
+  <div class="biu-text">
     {{ text }}
   </div>
 </template>
 
 <script>
   export default {
-    name: "BlogText",
+    name: "BiuText",
 
     props: {
       text: {
@@ -18,7 +18,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .blog-text {
+  .biu-text {
     display: block;
     text-align: center;
     background-image: -webkit-linear-gradient(left, #3498db, #f47920 10%, #d71345 20%, #f7acbc 30%,

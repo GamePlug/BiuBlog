@@ -16,7 +16,7 @@ export default {
       {hid: 'description', name: 'description', content: pkg.description}
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: `${myConfig.blog.base}/favicon.ico`}
+      {rel: 'icon', type: 'image/x-icon', href: `${myConfig.client.base}/favicon.ico`}
     ]
   },
 
@@ -56,12 +56,12 @@ export default {
   },
 
   server: {
-    host: myConfig.blog.host,
-    port: myConfig.blog.port
+    host: myConfig.client.host,
+    port: myConfig.client.port
   },
 
   router: {
-    base: myConfig.blog.base,
+    base: myConfig.client.base,
     prefetchLinks: true
   },
 

@@ -84,4 +84,4 @@ dist
 sw.*
 
 # BiuBlog
-/blog/static/admin
+/client/static/admin

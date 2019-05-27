@@ -6,7 +6,7 @@ const node_env = process.env.NODE_ENV || 'development'
 console.log(`CONFIG_ENV is ${config_env}; NODE_ENV is ${node_env}`)
 
 config.server = build(config.server)
-config.blog = build(config.blog)
+config.client = build(config.client)
 config.admin = build(config.admin)
 
 function build(target) {

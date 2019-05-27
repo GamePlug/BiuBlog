@@ -1,17 +1,17 @@
 <template>
-  <div class="blog-box" :style="`--radius: ${radius};`">
-    <div class="l"></div>
-    <div class="r"></div>
-    <div class="c">
-      <div class="bc"></div>
-      <div class="wc"></div>
+  <div class="biu-box" :style="`--radius: ${radius};`">
+    <div class="biu-l"></div>
+    <div class="biu-r"></div>
+    <div class="biu-c">
+      <div class="biu-bc"></div>
+      <div class="biu-wc"></div>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "BlogLogo",
+    name: "BiuLogo",
 
     props: {
       radius: {
@@ -23,7 +23,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .blog-box {
+  .biu-box {
     --radius: 1rem;
     width: calc(var(--radius) * 2);
     height: calc(var(--radius) * 2);
@@ -37,31 +37,31 @@
     -webkit-animation: cd 2000ms infinite linear;
     -o-animation: cd 2000ms infinite linear;
     animation: cd 2000ms infinite linear;
-    .l {
+    .biu-l {
       width: var(--radius);
       height: inherit;
       background-color: #000;
     }
-    .r {
+    .biu-r {
       width: var(--radius);
       height: inherit;
       background-color: #ddd;
     }
-    .c {
+    .biu-c {
       width: var(--radius);
       height: inherit;
       position: absolute;
       margin-left: calc(var(--radius) / -2);
       left: 50%;
       top: 0;
-      .wc {
+      .biu-wc {
         width: var(--radius);
         height: var(--radius);
         border: calc(var(--radius) / 3) solid #ddd;
         background-color: #000;
         border-radius: 50%;
       }
-      .bc {
+      .biu-bc {
         width: var(--radius);
         height: var(--radius);
         border: calc(var(--radius) / 3) solid #000;

@@ -1,8 +1,8 @@
 <template>
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <nuxt-link class="navbar-item blog-logo" to="/" @click.native="onActiveChange('')">
-        <BlogLogo radius="1rem"/>
+      <nuxt-link class="navbar-item biu-logo" to="/" @click.native="onActiveChange('')">
+        <BiuLogo radius="1rem"/>
         <span>雷超</span>
       </nuxt-link>
       <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"
@@ -48,11 +48,11 @@
 </template>
 
 <script>
-  import BlogLogo from "./BlogLogo";
+  import BiuLogo from "./BiuLogo";
 
   export default {
-    name: "BlogMenu",
-    components: {BlogLogo},
+    name: "BiuMenu",
+    components: {BiuLogo},
 
     data() {
       return {
@@ -103,7 +103,7 @@
     .nuxt-link-exact-active {
       color: #3273dc
     }
-    .blog-logo {
+    .biu-logo {
       padding: 0 1rem;
       span {
         color: #333333;

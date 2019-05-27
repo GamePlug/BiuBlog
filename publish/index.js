@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const myConfig = require('../config')
 const root = '../'
-const adminPath = `blog/static/${myConfig.admin.base}`
+const adminPath = `client/static/${myConfig.admin.base}`
 const releasePath = 'publish/dist'
 
 switch (process.env.PUBLISH_ENV) {
@@ -18,7 +18,7 @@ switch (process.env.PUBLISH_ENV) {
     clear(releasePath)
     copy('config', `${releasePath}/config`)
     copy('server', `${releasePath}/server`)
-    copy('blog', `${releasePath}/blog`)
+    copy('client', `${releasePath}/client`)
     break
 }
 
