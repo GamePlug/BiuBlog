@@ -6,7 +6,7 @@
           <div class="blog-item">
             <h2 class="blog-title">{{ item.title }}</h2>
             <div class="blog-label">
-              <span class="blog-time">时间：{{ formatTime(item.date) }}</span>
+              <span class="blog-time">时间：{{ util.formatTime(item.date) }}</span>
               <span class="blog-type">分类：{{item.type ? item.type.name : '其它'}}</span>
             </div>
             <div class="blog-subtitle">{{ item.subtitle }}</div>
@@ -18,9 +18,12 @@
 </template>
 
 <script>
+  import util from "../../../assets/lib/util"
+
   export default {
     data() {
       return {
+        util,
         num: 2,
         list: []
       }
@@ -45,16 +48,6 @@
         if (12 % this.num === 0) {
           return `is-${12 / this.num}`
         }
-      },
-      formatTime(time) {
-        const change = t => t < 10 ? "0" + t : t
-        const d = new Date(parseInt(time))
-        const year = d.getFullYear()
-        const month = change(d.getMonth() + 1)
-        const day = change(d.getDate())
-        const hour = change(d.getHours())
-        const minute = change(d.getMinutes())
-        return time = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
       }
     }
   }
