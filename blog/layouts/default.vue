@@ -1,7 +1,7 @@
 <template>
   <div>
     <BlogMenu/>
-    <div class="content">
+    <div class="blog-content">
       <nuxt/>
     </div>
   </div>
@@ -42,7 +42,7 @@
 </style>
 
 <style lang="scss" scoped>
-  .content {
+  .blog-content {
     padding-top: 3.25rem;
     background: #ffffff;
   }

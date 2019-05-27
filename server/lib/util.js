@@ -81,11 +81,12 @@ const util = {
     }
   },
 
-  getBlogBody: function (item, isAll) {
+  getBlogBody: function (item, isContent) {
     return {
       id: item._id,
       title: item.title,
-      content: isAll ? markdown.render(item.content) : item.content.substr(0, 200),
+      subtitle: item.subtitle,
+      content: isContent ? markdown.render(item.content) : '',
       date: item.date,
       type: item.type ? this.getBlogTypeBody(item.type) : null
     }

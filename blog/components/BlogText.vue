@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="blog-text">
     {{ text }}
   </div>
 </template>
@@ -18,7 +18,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .layout {
+  .blog-text {
     display: block;
     text-align: center;
     background-image: -webkit-linear-gradient(left, #3498db, #f47920 10%, #d71345 20%, #f7acbc 30%,

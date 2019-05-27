@@ -10,6 +10,7 @@ const BlogType = mongoose.model('BlogType', new Schema({
 // 博客
 const Blog = mongoose.model('Blog', new Schema({
   title: String,
+  subtitle: String,
   content: String,
   date: {type: String, default: Date.now},
   type: {type: Schema.ObjectId, ref: BlogType.modelName}

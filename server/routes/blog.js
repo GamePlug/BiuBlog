@@ -58,14 +58,14 @@ router.all('/type/list', async ctx => {
 
 // 新增博客
 router.all('/add', async ctx => {
-  const {title, content, date, type} = util.getParams(ctx)
-  if (util.checkParamsIsEmpty(ctx, {title, content})) return
+  const {title, subtitle, content, date, type} = util.getParams(ctx)
+  if (util.checkParamsIsEmpty(ctx, {title, subtitle, content})) return
   if (util.checkParamsNotId(ctx, {type})) return
   if (!await db.BlogType.findOne({_id: type})) {
     util.setBodyError(ctx, '博客类型不存在')
     return
   }
-  const blog = {title, content, date, type}
+  const blog = {title, subtitle, content, date, type}
   const save = await new db.Blog(blog).save()
   const item = await db.Blog.findOne({_id: save._id}).populate(util.populateBlogType())
   util.setBodySuccess(ctx, util.getBlogBody(item))
@@ -90,10 +90,11 @@ router.all('/delete', async ctx => {
 
 // 修改博客
 router.all('/update', async ctx => {
-  const {id, title, content, date, type} = util.getParams(ctx)
+  const {id, title, subtitle, content, date, type} = util.getParams(ctx)
   if (util.checkParamsNotId(ctx, {id})) return
   const blog = {}
   if (title) blog.title = title
+  if (subtitle) blog.subtitle = subtitle
   if (content) blog.content = content
   if (date) blog.date = date
   if (type) {

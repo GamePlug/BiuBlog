@@ -1,5 +1,5 @@
 <template>
-  <div class="box" :style="`--radius: ${radius};`">
+  <div class="blog-box" :style="`--radius: ${radius};`">
     <div class="l"></div>
     <div class="r"></div>
     <div class="c">
@@ -23,7 +23,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .box {
+  .blog-box {
     --radius: 1rem;
     width: calc(var(--radius) * 2);
     height: calc(var(--radius) * 2);

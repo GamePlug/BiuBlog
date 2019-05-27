@@ -1,7 +1,7 @@
 <template>
-  <div class="layout">
+  <div class="blog-layout">
     <h1>
-      <BlogText class="tip" :text="`${this.$route.params.beta}功能正在内测中，敬请期待！`"/>
+      <BlogText class="blog-tip" :text="`${this.$route.params.beta}功能正在内测中，敬请期待！`"/>
     </h1>
   </div>
 </template>
@@ -18,7 +18,7 @@
 </script>
 
 <style class="scss" scoped>
-  .tip {
+  .blog-tip {
     margin-top: 2rem;
   }
 </style>

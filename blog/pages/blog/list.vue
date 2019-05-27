@@ -1,5 +1,5 @@
 <template>
-  <div class="layout">
+  <div class="blog-layout">
     <BlogCrumb :breadcrumbs="breadcrumbs"/>
     <div class="tabs is-centered is-medium">
       <ul>
@@ -73,7 +73,7 @@
   @import "~bulma/sass/utilities/_all.sass";
   @import "~bulma/sass/components/tabs.sass";
 
-  .layout {
+  .blog-layout {
     max-width: 1000px;
     margin: 0 auto;
     .tabs {
