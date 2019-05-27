@@ -29,6 +29,7 @@
 
   .breadcrumb {
     margin: 1.5rem 1rem;
+    overflow: hidden;
     ul {
       padding: 0;
     }

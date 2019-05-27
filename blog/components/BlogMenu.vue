@@ -1,52 +1,50 @@
 <template>
-  <div>
-    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <nuxt-link class="navbar-item blog-logo" to="/" @click.native="onActiveChange('')">
-          <BlogLogo radius="1rem"/>
-          <span>雷超</span>
+  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <nuxt-link class="navbar-item blog-logo" to="/" @click.native="onActiveChange('')">
+        <BlogLogo radius="1rem"/>
+        <span>雷超</span>
+      </nuxt-link>
+      <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"
+         :class="activeClass" @click="onActiveChange">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu" :class="activeClass">
+      <div class="navbar-start">
+        <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
+                   v-for="item in menuData.menuLeft" :key="item.url" :to="item.url">
+          {{ item.name }}
         </nuxt-link>
-        <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"
-           :class="activeClass" @click="onActiveChange">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable" v-if="menuData.menuMore && menuData.menuMore.length > 0">
+          <a class="navbar-link">
+            更多
+          </a>
+          <div class="navbar-dropdown">
+            <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
+                       v-for="item in menuData.menuMore" :key="item.url" :to="item.url">
+              {{ item.name }}
+            </nuxt-link>
+          </div>
+        </div>
       </div>
 
-      <div class="navbar-menu" :class="activeClass">
-        <div class="navbar-start">
-          <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
-                     v-for="item in menuData.menuLeft" :key="item.url" :to="item.url">
-            {{ item.name }}
-          </nuxt-link>
-
-          <div class="navbar-item has-dropdown is-hoverable" v-if="menuData.menuMore && menuData.menuMore.length > 0">
-            <a class="navbar-link">
-              更多
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-light" target="_blank" @click="onActiveChange('')"
+               v-for="item in menuData.menuRight" :key="item.url" :href="item.url">
+              <strong>{{ item.name }}</strong>
             </a>
-            <div class="navbar-dropdown">
-              <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
-                         v-for="item in menuData.menuMore" :key="item.url" :to="item.url">
-                {{ item.name }}
-              </nuxt-link>
-            </div>
-          </div>
-        </div>
-
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <div class="buttons">
-              <a class="button is-light" target="_blank" @click="onActiveChange('')"
-                 v-for="item in menuData.menuRight" :key="item.url" :href="item.url">
-                <strong>{{ item.name }}</strong>
-              </a>
-            </div>
           </div>
         </div>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -102,6 +100,9 @@
 
   .navbar {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .08);
+    .nuxt-link-exact-active {
+      color: #3273dc
+    }
     .blog-logo {
       padding: 0 1rem;
       span {

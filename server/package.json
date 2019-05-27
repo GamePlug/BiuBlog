@@ -5,7 +5,7 @@
   "author": "LeiChao",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon index.js --watch ../server",
     "pm2start": "cross-env NODE_ENV=production pm2 start index.js --name server --watch",
     "pm2stop": "pm2 delete server"
   },

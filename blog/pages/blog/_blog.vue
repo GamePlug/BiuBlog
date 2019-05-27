@@ -5,7 +5,7 @@
       <h2 class="blog-title">{{ blog.title }}</h2>
       <div class="blog-label">
         <span class="blog-time">时间：{{ util.formatTime(blog.date) }}</span>
-        <span class="blog-type">分类：{{blog.type ? blog.type.name : '其它'}}</span>
+        <span class="blog-type">分类：{{blog.type ? blog.type.name : '暂无'}}</span>
       </div>
     </div>
     <div class="markdown-body" v-html="blog.content"></div>
@@ -44,6 +44,7 @@
         if (blog.type) {
           breadcrumbs.push({name: blog.type.name, url: `/blog/list/${blog.type.id}`})
         }
+        breadcrumbs.push({name: blog.title, url: ''})
         return {blog, breadcrumbs}
       }).catch(function (error) {
         console.log(error.stack)

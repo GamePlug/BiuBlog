@@ -7,7 +7,7 @@
             <h2 class="blog-title">{{ item.title }}</h2>
             <div class="blog-label">
               <span class="blog-time">时间：{{ util.formatTime(item.date) }}</span>
-              <span class="blog-type">分类：{{item.type ? item.type.name : '其它'}}</span>
+              <span class="blog-type">分类：{{item.type ? item.type.name : '暂无'}}</span>
             </div>
             <div class="blog-subtitle">{{ item.subtitle }}</div>
           </div>
