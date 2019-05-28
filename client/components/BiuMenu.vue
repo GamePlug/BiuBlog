@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <nuxt-link class="navbar-item biu-logo" to="/" @click.native="onActiveChange('')">
+      <nuxt-link class="navbar-item biu-logo" :to="url.index" @click.native="onActiveChange('')">
         <BiuLogo radius="1rem"/>
         <span>雷超</span>
       </nuxt-link>
@@ -48,33 +48,34 @@
 </template>
 
 <script>
-  import BiuLogo from "./BiuLogo";
+  import url from "~/assets/lib/url"
+  import BiuLogo from "~/components/BiuLogo";
 
   export default {
     name: "BiuMenu",
     components: {BiuLogo},
-
     data() {
       return {
+        url,
         menuData: {
           logo: '雷超',
           menuLeft: [
-            {name: '精品博客', url: '/blog/list'},
+            {name: '精品博客', url: url.blogList()},
             {name: '原创小说', url: '/beta/原创小说'},
             {name: '心情随笔', url: '/beta/心情随笔'},
             {name: '推荐收藏', url: '/beta/推荐收藏'},
-            {name: '留言板', url: '/beta/留言板'}
+            {name: '留言板', url: '/beta/留言板'},
+            {name: '关于', url: url.about}
           ],
           menuMore: [],
           menuRight: [
             {name: 'Github', url: 'https://github.com/GamePlug/BiuBlog'},
-            {name: '后台管理', url: '/admin'}
+            {name: '后台管理', url: url.admin}
           ]
         },
         activeClass: ''
       }
     },
-
     methods: {
       onActiveChange(activeClass) {
         if (typeof activeClass === 'string') {
@@ -84,7 +85,6 @@
         }
       }
     },
-
     watch: {
       $route(to, from) {
         this.onActiveChange('')
@@ -100,7 +100,7 @@
 
   .navbar {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .08);
-    .nuxt-link-exact-active {
+    .nuxt-link-active {
       color: #3273dc
     }
     .biu-logo {

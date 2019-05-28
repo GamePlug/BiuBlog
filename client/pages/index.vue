@@ -4,7 +4,7 @@
       <BlogText class="biu-welcome" text="欢迎访问雷超的个人网页，愿您浏览愉快，健康成长！"/>
     </h1>
     <div class="biu-start">
-      <nuxt-link class="biu-btn" to="/blog/list">
+      <nuxt-link class="biu-btn" :to="url.blogList()">
         开启神奇之旅
       </nuxt-link>
     </div>
@@ -12,13 +12,19 @@
 </template>
 
 <script>
-  import BlogText from "../components/BiuText";
+  import url from "~/assets/lib/url"
+  import BlogText from "~/components/BiuText";
 
   export default {
     components: {BlogText},
     head() {
       return {title: '首页'}
-    }
+    },
+    data() {
+      return {
+        url
+      }
+    },
   }
 </script>
 

@@ -2,7 +2,7 @@
   <div class="biu-layout">
     <div class="columns" v-for="r in Math.ceil(list.length/num)">
       <div class="column" v-for="c in num" v-if="item = getItem(r, c)" :class="getClass()">
-        <nuxt-link :to="`/blog/${item.id}`">
+        <nuxt-link :to="url.blogView(item.id)">
           <div class="biu-item">
             <h2 class="biu-title">{{ item.title }}</h2>
             <div class="biu-label">
@@ -18,27 +18,28 @@
 </template>
 
 <script>
-  import util from "../../../assets/lib/util"
+  import url from "~/assets/lib/url"
+  import util from "~/assets/lib/util"
 
   export default {
     data() {
       return {
+        url,
         util,
         num: 2,
         list: []
       }
     },
-
     asyncData({params, $axios}) {
       return $axios.post('blog/list', {
-        type: params.list || ''
+        type: params.id || ''
       }).then((res) => {
+        if (res.data.err) return
         return {list: res.data.result}
       }).catch(function (error) {
         console.log(error.stack)
       })
     },
-
     methods: {
       getItem(r, c) {
         const index = (r - 1) * this.num + c - 1

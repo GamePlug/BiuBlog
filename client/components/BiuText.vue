@@ -7,7 +7,6 @@
 <script>
   export default {
     name: "BiuText",
-
     props: {
       text: {
         type: String,

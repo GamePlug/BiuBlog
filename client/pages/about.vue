@@ -1,7 +1,7 @@
 <template>
   <div class="biu-layout">
     <div class="biu-test">
-      Write
+      关于
     </div>
   </div>
 </template>

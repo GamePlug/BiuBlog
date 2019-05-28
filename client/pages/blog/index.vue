@@ -4,7 +4,7 @@
     <div class="tabs is-centered is-medium">
       <ul>
         <li v-for="item in tabs" :class="item.id === id ? 'is-active' : ''">
-          <nuxt-link :to="`/blog/list${item.id && item.id.length > 0 ? '/'+item.id : ''}`">
+          <nuxt-link :to="url.blogList(item.id)">
             {{ item.name }}
           </nuxt-link>
         </li>
@@ -15,41 +15,40 @@
 </template>
 
 <script>
-  import BiuCrumb from "../../components/BiuCrumb";
+  import url from "~/assets/lib/url"
+  import BiuCrumb from "~/components/BiuCrumb";
 
   const title = '精品博客'
-
   export default {
     components: {BiuCrumb},
     head() {
       return {title: title}
     },
-
     data() {
       return {
-        id: this.$route.params.list || '',
+        url,
+        id: this.$route.params.id || '',
         breadcrumbs: [],
         tabs: []
       }
     },
-
     asyncData({params, $axios}) {
       return $axios.post('blog/type/list').then((res) => {
+        if (res.data.err) return
         // tabs
         const tabs = res.data.result
         tabs.unshift({id: '', name: '全部', sort: 0})
         // breadcrumbs
-        const id = params.list || ''
+        const id = params.id || ''
         const breadcrumbs = getBreadcrumbs(tabs, id)
         return {tabs, breadcrumbs}
       }).catch(function (error) {
         console.log(error.stack)
       })
     },
-
     watch: {
       $route(to, from) {
-        this.id = to.params.list || ''
+        this.id = to.params.id || ''
         this.breadcrumbs = getBreadcrumbs(this.tabs, this.id)
       }
     }
@@ -61,10 +60,10 @@
       cur = tabs.find(obj => obj.id === id)
     }
     const breadcrumbs = [
-      {name: '首页', url: '/'},
-      {name: title, url: cur ? '/blog/list' : ''}
+      {name: '首页', url: url.index},
+      {name: title, url: cur ? url.blogList() : ''}
     ]
-    if (cur) breadcrumbs.push({name: cur.name})
+    if (cur) breadcrumbs.push({name: cur.name, url: ''})
     return breadcrumbs
   }
 </script>

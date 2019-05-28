@@ -1,18 +1,18 @@
 <template>
   <div class="biu-layout">
     <h1>
-      <BiuText class="biu-tip" :text="`${this.$route.params.beta}功能正在内测中，敬请期待！`"/>
+      <BiuText class="biu-tip" :text="`${this.$route.params.id}功能正在内测中，敬请期待！`"/>
     </h1>
   </div>
 </template>
 
 <script>
-  import BiuText from "../../components/BiuText";
+  import BiuText from "~/components/BiuText";
 
   export default {
     components: {BiuText},
     head() {
-      return {title: this.$route.params.beta}
+      return {title: this.$route.params.id}
     }
   }
 </script>

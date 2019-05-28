@@ -13,36 +13,37 @@
 </template>
 
 <script>
-  import util from "../../assets/lib/util"
-  import BiuCrumb from "../../components/BiuCrumb";
+  import url from "~/assets/lib/url"
+  import util from "~/assets/lib/util"
+  import BiuCrumb from "~/components/BiuCrumb";
 
   export default {
     components: {BiuCrumb},
     head() {
       return {title: '博客'}
     },
-
     data() {
       return {
+        url,
         util,
         blog: {},
         breadcrumbs: []
       }
     },
-
     asyncData({params, $axios}) {
       return $axios.post('blog/one', {
-        id: params.blog || ''
+        id: params.id || ''
       }).then((res) => {
+        if (res.data.err) return
         // blog
         const blog = res.data.result
         // breadcrumbs
         const breadcrumbs = [
-          {name: '首页', url: '/'},
-          {name: '博客精品', url: '/blog/list'}
+          {name: '首页', url: url.index},
+          {name: '博客精品', url: url.blogList()}
         ]
         if (blog.type) {
-          breadcrumbs.push({name: blog.type.name, url: `/blog/list/${blog.type.id}`})
+          breadcrumbs.push({name: blog.type.name, url: url.blogList(blog.type.id)})
         }
         breadcrumbs.push({name: blog.title, url: ''})
         return {blog, breadcrumbs}

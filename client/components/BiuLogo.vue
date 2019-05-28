@@ -12,7 +12,6 @@
 <script>
   export default {
     name: "BiuLogo",
-
     props: {
       radius: {
         type: String,
