@@ -14,8 +14,13 @@ export default new Router({
     },
     {
       path: '/blog/write',
-      name: 'write',
+      name: 'blog-write',
       component: () => import('./views/blog/write')
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('./views/404')
     }
   ]
 })

@@ -30,11 +30,13 @@
         breadcrumbs: []
       }
     },
-    asyncData({params, $axios}) {
+    asyncData({params, $axios, error}) {
       return $axios.post('blog/one', {
         id: params.id || ''
       }).then((res) => {
-        if (res.data.err) return
+        if (res.data.err) {
+          return error({statusCode: 404, message: 'This page could not be found'})
+        }
         // blog
         const blog = res.data.result
         // breadcrumbs

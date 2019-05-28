@@ -43,7 +43,7 @@ export default function ({$axios, redirect}) {
     res => {
       switch (res.data.err) {
         case 3:
-          redirect('/user/login')
+          redirect('/beta/用户登录')
           break
       }
       return res
