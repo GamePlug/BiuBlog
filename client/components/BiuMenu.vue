@@ -69,7 +69,7 @@
           ],
           menuMore: [],
           menuRight: [
-            {name: 'Github', url: 'https://github.com/GamePlug/BiuBlog'},
+            {name: 'Github', url: url.github},
             {name: '后台管理', url: url.admin}
           ]
         },

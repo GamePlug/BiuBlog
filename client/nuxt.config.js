@@ -80,6 +80,10 @@ export default {
    */
   proxy: {
     [`${myConfig.server.base}/`]: `http://${myConfig.server.host}:${myConfig.server.port}`,
+    [`${myConfig.client.base}${myConfig.admin.base}/`]: {
+      target: `http://${myConfig.client.host}:${myConfig.client.port}${myConfig.client.base}${myConfig.admin.base}/index.html`,
+      pathRewrite: {'^.*': ''}
+    },
     '/github': {
       target: 'https://github.com/GamePlug',
       pathRewrite: {'^/github': ''}

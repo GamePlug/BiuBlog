@@ -1,10 +1,14 @@
 const Koa = require('koa')
 const koaBody = require('koa-body')
+const mongodb = require('./lib/mongodb')
 const myConfig = require('../config')
 
 const app = new Koa()
 
 async function start() {
+  // Connect mongodb
+  mongodb.connect(myConfig.server.mongodb)
+
   // Error catch
   app.use(async (ctx, next) => {
     try {
@@ -43,6 +47,7 @@ async function start() {
     app.use(router.routes())
   })
 
+  // Start server
   const host = myConfig.server.host
   const port = myConfig.server.port
   app.listen(port, host)
