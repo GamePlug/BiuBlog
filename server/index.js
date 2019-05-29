@@ -1,9 +1,10 @@
 const Koa = require('koa')
 const koaBody = require('koa-body')
 const mongodb = require('./lib/mongodb')
-const myConfig = require('../config')
+const common = require('common')
 
 const app = new Koa()
+const myConfig = common.config
 
 async function start() {
   // Connect mongodb

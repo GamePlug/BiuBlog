@@ -3,7 +3,7 @@ const path = require('path')
 const myConfig = require('../config')
 const root = '../'
 const adminPath = `client/static/${myConfig.admin.base}`
-const releasePath = 'publish/dist'
+const releasePath = 'dist'
 
 switch (process.env.PUBLISH_ENV) {
   case 'clear':
@@ -16,7 +16,7 @@ switch (process.env.PUBLISH_ENV) {
     break
   case 'release':
     clear(releasePath)
-    copy('config', `${releasePath}/config`)
+    copy('common', `${releasePath}/common`)
     copy('server', `${releasePath}/server`)
     copy('client', `${releasePath}/client`)
     break

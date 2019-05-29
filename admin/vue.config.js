@@ -1,4 +1,5 @@
-const myConfig = require('../config')
+const common = require('common')
+const myConfig = common.config
 
 module.exports = {
   publicPath: `${myConfig.client.base}${myConfig.admin.base}`,

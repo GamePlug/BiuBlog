@@ -10,6 +10,7 @@
     "pm2stop": "pm2 delete server"
   },
   "dependencies": {
+    "common": "file:../common",
     "cross-env": "^5.2.0",
     "highlight.js": "^9.15.6",
     "koa": "^2.6.2",

@@ -1,0 +1,17 @@
+{
+  "name": "common",
+  "version": "1.0.0",
+  "description": "My publish project",
+  "author": "LeiChao",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "clear": "cross-env PUBLISH_ENV=clear NODE_ENV=production node publish/index.js",
+    "admin": "cross-env PUBLISH_ENV=admin NODE_ENV=production node publish/index.js",
+    "release": "cross-env PUBLISH_ENV=release NODE_ENV=production node publish/index.js"
+  },
+  "dependencies": {
+    "cross-env": "^5.2.0"
+  },
+  "devDependencies": {}
+}

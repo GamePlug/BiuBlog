@@ -1,6 +1,6 @@
-import pkg from './package'
-
-const myConfig = require('../config')
+const pkg = require('./package')
+const common = require('common')
+const myConfig = common.config
 
 export default {
   mode: 'universal',
