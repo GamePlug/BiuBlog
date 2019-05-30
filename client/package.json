@@ -17,8 +17,6 @@
     "bulma": "^0.7.5",
     "common": "file:../common",
     "cross-env": "^5.2.0",
-    "github-markdown-css": "^3.0.1",
-    "highlight.js": "^9.15.6",
     "node-sass": "^4.12.0",
     "nuxt": "^2.4.0",
     "sass-loader": "^7.1.0"

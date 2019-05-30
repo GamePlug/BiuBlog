@@ -1,8 +1,8 @@
 const fs = require('fs')
 const path = require('path')
-const myConfig = require('../config')
+const config = require('../config')
 const root = '../'
-const adminPath = `client/static/${myConfig.admin.base}`
+const adminPath = `client/static/${config.admin.base}`
 const releasePath = 'dist'
 
 switch (process.env.PUBLISH_ENV) {

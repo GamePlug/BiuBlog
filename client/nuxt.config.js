@@ -1,6 +1,5 @@
 const pkg = require('./package')
-const common = require('common')
-const myConfig = common.config
+const {config} = require('common')
 
 export default {
   mode: 'universal',
@@ -16,7 +15,7 @@ export default {
       {hid: 'description', name: 'description', content: pkg.description}
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: `${myConfig.client.base}/favicon.ico`}
+      {rel: 'icon', type: 'image/x-icon', href: `${config.client.base}/favicon.ico`}
     ]
   },
 
@@ -51,17 +50,17 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
+    extend(webConfig, ctx) {
     }
   },
 
   server: {
-    host: myConfig.client.host,
-    port: myConfig.client.port
+    host: config.client.host,
+    port: config.client.port
   },
 
   router: {
-    base: myConfig.client.base,
+    base: config.client.base,
     prefetchLinks: true
   },
 
@@ -69,9 +68,9 @@ export default {
   ** Axios module configuration
    */
   axios: {
-    host: myConfig.server.host,
-    port: myConfig.server.port,
-    prefix: myConfig.server.base,
+    host: config.server.host,
+    port: config.server.port,
+    prefix: config.server.base,
     proxy: true
   },
 
@@ -79,9 +78,9 @@ export default {
   ** Proxy module configuration
    */
   proxy: {
-    [`${myConfig.server.base}/`]: `http://${myConfig.server.host}:${myConfig.server.port}`,
-    [`${myConfig.client.base}${myConfig.admin.base}/`]: {
-      target: `http://${myConfig.client.host}:${myConfig.client.port}${myConfig.client.base}${myConfig.admin.base}/index.html`,
+    [`${config.server.base}/`]: `http://${config.server.host}:${config.server.port}`,
+    [`${config.client.base}${config.admin.base}/`]: {
+      target: `http://${config.client.host}:${config.client.port}${config.client.base}${config.admin.base}/index.html`,
       pathRewrite: {'^.*': ''}
     },
     '/github': {

@@ -1,14 +1,13 @@
 const Koa = require('koa')
 const koaBody = require('koa-body')
 const mongodb = require('./lib/mongodb')
-const common = require('common')
+const {config} = require('common')
 
 const app = new Koa()
-const myConfig = common.config
 
 async function start() {
   // Connect mongodb
-  mongodb.connect(myConfig.server.mongodb)
+  mongodb.connect(config.server.mongodb)
 
   // Error catch
   app.use(async (ctx, next) => {
@@ -37,20 +36,20 @@ async function start() {
   // Add filters
   const filters = require('./filters')
   filters.forEach(filter => {
-    filter.prefix(myConfig.server.base)
+    filter.prefix(config.server.base)
     app.use(filter.filters())
   })
 
   // Add routes
   const routes = require('./routes')
   routes.forEach(router => {
-    router.prefix(myConfig.server.base)
+    router.prefix(config.server.base)
     app.use(router.routes())
   })
 
   // Start server
-  const host = myConfig.server.host
-  const port = myConfig.server.port
+  const host = config.server.host
+  const port = config.server.port
   app.listen(port, host)
   console.log(`Server listening on http://${host}:${port}`)
 }

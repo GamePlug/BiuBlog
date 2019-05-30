@@ -1,5 +1,5 @@
 const db = require('../models')
-const markdown = require('../lib/markdown')
+const {markdown} = require('common')
 
 const util = {
   getParams: function (ctx) {

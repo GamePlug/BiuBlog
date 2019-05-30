@@ -1,14 +1,13 @@
-const common = require('common')
-const myConfig = common.config
+const {config} = require('common')
 
 module.exports = {
-  publicPath: `${myConfig.client.base}${myConfig.admin.base}`,
+  publicPath: `${config.client.base}${config.admin.base}`,
   devServer: {
-    host: myConfig.admin.host,
-    port: myConfig.admin.port,
+    host: config.admin.host,
+    port: config.admin.port,
     proxy: {
-      [`${myConfig.server.base}/`]: {
-        target: `http://${myConfig.server.host}:${myConfig.server.port}`,
+      [`${config.server.base}/`]: {
+        target: `http://${config.server.host}:${config.server.port}`,
         ws: true,
         changeOrigin: true
       }

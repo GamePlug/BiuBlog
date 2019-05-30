@@ -1,7 +1,9 @@
 const config = require('./config')
+const markdown = require('./markdown')
 
 const common = {
-  config
+  config,
+  markdown
 }
 
 module.exports = common
