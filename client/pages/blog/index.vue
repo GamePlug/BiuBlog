@@ -69,9 +69,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "~bulma/sass/utilities/_all.sass";
-  @import "~bulma/sass/components/tabs.sass";
-
   .biu-layout {
     max-width: 1000px;
     margin: 0 auto;

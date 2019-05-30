@@ -1,8 +1,6 @@
 <template>
   <div class="biu-layout">
-    <h1>
-      <BlogText class="biu-welcome" text="欢迎访问雷超的个人网页，愿您浏览愉快，健康成长！"/>
-    </h1>
+    <BlogText class="biu-welcome" text="欢迎访问雷超的个人网页，愿您浏览愉快，健康成长！"/>
     <div class="biu-start">
       <nuxt-link class="biu-btn" :to="url.blogList()">
         开启神奇之旅
@@ -34,6 +32,7 @@
     margin: 0 auto;
     .biu-welcome {
       margin-top: 2rem;
+      font-size: 2rem;
     }
     .biu-start {
       margin-top: 10rem;

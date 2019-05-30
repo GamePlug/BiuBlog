@@ -23,9 +23,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "~bulma/sass/utilities/_all.sass";
-  @import "~bulma/sass/components/breadcrumb.sass";
-
   .breadcrumb {
     margin: 1.5rem 1rem;
     overflow: hidden;

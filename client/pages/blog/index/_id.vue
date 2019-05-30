@@ -4,12 +4,12 @@
       <div class="column" v-for="c in num" v-if="item = getItem(r, c)" :class="getClass()">
         <nuxt-link :to="url.blogView(item.id)">
           <div class="biu-item">
-            <h2 class="biu-title">{{ item.title }}</h2>
+            <span class="biu-title">{{ item.title }}</span>
             <div class="biu-label">
               <span class="biu-time">时间：{{ util.formatTime(item.date) }}</span>
               <span class="biu-type">分类：{{item.type ? item.type.name : '暂无'}}</span>
             </div>
-            <div class="biu-subtitle">{{ item.subtitle }}</div>
+            <span class="biu-subtitle">{{ item.subtitle }}</span>
           </div>
         </nuxt-link>
       </div>
@@ -57,9 +57,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "~bulma/sass/utilities/_all.sass";
-  @import "~bulma/sass/grid/columns.sass";
-
   .biu-layout {
     padding-bottom: 1.5rem;
     .columns {
@@ -73,15 +70,15 @@
           background-color: #f0f0f0;
         }
         .biu-title {
-          margin-bottom: 0.5rem;
           color: #333333;
+          font-size: 1.8rem;
         }
         .biu-subtitle {
-          margin-top: 0.5rem;
           color: #333333;
           line-height: 1.5rem;
         }
         .biu-label {
+          margin-bottom: 0.5rem;
           font-size: 0.9rem;
           color: #919898;
           .biu-type {

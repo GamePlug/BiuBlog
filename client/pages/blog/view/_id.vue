@@ -2,7 +2,7 @@
   <div class="biu-layout">
     <BiuCrumb :breadcrumbs="breadcrumbs"/>
     <div class="biu-item">
-      <h2 class="biu-title">{{ blog.title }}</h2>
+      <span class="biu-title">{{ blog.title }}</span>
       <div class="biu-label">
         <span class="biu-time">时间：{{ util.formatTime(blog.date) }}</span>
         <span class="biu-type">分类：{{blog.type ? blog.type.name : '暂无'}}</span>
@@ -64,12 +64,12 @@
     margin: 0 auto;
     .biu-item {
       text-align: center;
-      margin-bottom: 1.5rem;
       .biu-title {
-        margin-bottom: 0.5rem;
         color: #333333;
+        font-size: 1.8rem;
       }
       .biu-label {
+        margin-bottom: 1.5rem;
         font-size: 0.9rem;
         color: #919898;
         .biu-type {

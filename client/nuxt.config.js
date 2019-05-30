@@ -1,5 +1,5 @@
 const pkg = require('./package')
-const {config} = require('common')
+const config = require('common/config')
 
 export default {
   mode: 'universal',
@@ -40,7 +40,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios', '@nuxtjs/bulma'
   ],
 
   /*

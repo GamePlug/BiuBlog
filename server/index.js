@@ -1,7 +1,7 @@
 const Koa = require('koa')
 const koaBody = require('koa-body')
 const mongodb = require('./lib/mongodb')
-const {config} = require('common')
+const config = require('common/config')
 
 const app = new Koa()
 

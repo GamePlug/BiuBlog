@@ -94,10 +94,6 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "~bulma/sass/utilities/_all.sass";
-  @import "~bulma/sass/components/navbar.sass";
-  @import "~bulma/sass/elements/button.sass";
-
   .navbar {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .08);
     .nuxt-link-active {
