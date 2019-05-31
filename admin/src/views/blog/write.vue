@@ -7,15 +7,17 @@
       </div>
       <div class="biu-menu">
         <div class="buttons">
-          <a class="button is-text">全屏</a>
-          <a class="button is-text">导入</a>
-          <a class="button is-text">导出</a>
-          <a class="button is-text">保存</a>
+          <a class="button is-text" @click="clickFull">全屏</a>
+          <a class="button is-text" @click="clickImport">导入</a>
+          <a class="button is-text" @click="clickExport">导出</a>
+          <a class="button is-text" @click="clickSave">保存</a>
         </div>
       </div>
-      <div class="biu-article">
-        <label><textarea class="biu-edit" v-model="mdEdit"></textarea></label>
-        <div class="biu-view markdown-body" v-html="mdView"></div>
+      <div class="biu-article" v-show="!isFull">
+        <label><textarea class="biu-edit" v-model="mdEdit" ref="vEdit" @scroll="scrollEdit"
+                         @mouseover="hoverEdit"></textarea></label>
+        <div class="biu-view markdown-body" v-html="mdView" ref="vView" @scroll="scrollView"
+             @mouseover="hoverView"></div>
       </div>
     </div>
   </div>
@@ -29,7 +31,47 @@
     data() {
       return {
         mdEdit: '',
-        mdView: ''
+        mdView: '',
+        isEdit: false,
+        isFull: false
+      }
+    },
+    methods: {
+      clickFull() {
+        this.isFull = !this.isFull
+        const vEdit = this.$refs.vEdit
+        const vView = this.$refs.vView
+        vEdit.style.width = '0'
+        vView.style.width = '100%'
+      },
+      clickImport() {
+
+      },
+      clickExport() {
+
+      },
+      clickSave() {
+
+      },
+      scrollEdit() {
+        const vEdit = this.$refs.vEdit
+        const vView = this.$refs.vView
+        if (this.isEdit) {
+          vView.scrollTop = vEdit.scrollTop * vView.scrollHeight / vEdit.scrollHeight
+        }
+      },
+      scrollView() {
+        const vEdit = this.$refs.vEdit
+        const vView = this.$refs.vView
+        if (!this.isEdit) {
+          vEdit.scrollTop = vView.scrollTop * vEdit.scrollHeight / vView.scrollHeight
+        }
+      },
+      hoverEdit() {
+        this.isEdit = true
+      },
+      hoverView() {
+        this.isEdit = false
       }
     },
     watch: {
@@ -68,11 +110,14 @@
       .biu-menu {
         height: 2rem;
         padding-left: 0.7rem;
-        background-color: #eeeeee;
+        background-color: #f5f5f5;
         .button {
           height: 2rem;
           margin: 0;
           padding: 0 0.3rem;
+          &:hover {
+            background-color: #eeeeee;
+          }
         }
       }
       .biu-article {
