@@ -9,7 +9,6 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "bulma": "^0.7.5",
     "common": "file:../common",
     "core-js": "^2.6.5",
     "node-sass": "^4.12.0",

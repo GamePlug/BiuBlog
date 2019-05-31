@@ -1,7 +1,7 @@
-const config = {
-  html: true,
+var hljs = require('highlight.js')
+
+const markdown = require('markdown-it')({
   highlight: function (str, lang) {
-    const hljs = require('highlight.js')
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(lang, str).value
@@ -10,8 +10,6 @@ const config = {
     }
     return ''
   }
-}
-
-const markdown = require('markdown-it')(config)
+})
 
 module.exports = markdown

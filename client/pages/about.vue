@@ -7,7 +7,11 @@
 </template>
 
 <script>
-  export default {}
+  export default {
+    head() {
+      return {title: '关于'}
+    }
+  }
 </script>
 
 <style lang="scss" scoped>

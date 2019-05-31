@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.4.1",
-    "@nuxtjs/bulma": "^1.2.4",
     "common": "file:../common",
     "cross-env": "^5.2.0",
     "node-sass": "^4.12.0",

@@ -15,7 +15,8 @@ export default {
       {hid: 'description', name: 'description', content: pkg.description}
     ],
     link: [
-      {rel: 'icon', type: 'image/x-icon', href: `${config.client.base}/favicon.ico`}
+      {rel: 'icon', type: 'image/x-icon', href: `${config.client.base}/favicon.ico`},
+      {rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css'}
     ]
   },
 
@@ -40,7 +41,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/axios', '@nuxtjs/bulma'
+    '@nuxtjs/axios'
   ],
 
   /*
@@ -82,12 +83,7 @@ export default {
     [`${config.client.base}${config.admin.base}/`]: {
       target: `http://${config.client.host}:${config.client.port}${config.client.base}${config.admin.base}/index.html`,
       pathRewrite: {'^.*': ''}
-    },
-    '/github': {
-      target: 'https://github.com/GamePlug',
-      pathRewrite: {'^/github': ''}
-    },
-    '/GamePlug': 'https://github.com'
+    }
   }
 
 }

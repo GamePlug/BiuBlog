@@ -15,13 +15,16 @@
       </div>
       <div class="biu-article">
         <label><textarea class="biu-edit" v-model="mdEdit"></textarea></label>
-        <div class="biu-view">{{ mdView }}</div>
+        <div class="biu-view markdown-body" v-html="mdView"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import markdown from "common/markdown"
+  import 'common/markdown/style.css'
+
   export default {
     data() {
       return {
@@ -31,16 +34,13 @@
     },
     watch: {
       mdEdit(newValue, oldValue) {
-        this.mdView = newValue
+        this.mdView = markdown.render(newValue)
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "~bulma/sass/utilities/_all.sass";
-  @import "~bulma/sass/elements/button.sass";
-
   .biu-layout {
     .biu-content {
       .biu-title {
@@ -84,6 +84,7 @@
           height: 100%;
           padding: 0 1rem;
           background-color: #ffffff;
+          overflow-y: scroll;
           resize: none;
           font-size: 1.25rem;
           font-family: sans-serif, 宋体;
@@ -96,7 +97,7 @@
           width: 50%;
           height: 100%;
           padding: 0 1rem;
-          background-color: #f5f5f5;
+          background-color: #ffffff;
           overflow-y: auto;
         }
       }

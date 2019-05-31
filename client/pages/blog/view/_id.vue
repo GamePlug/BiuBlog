@@ -15,7 +15,8 @@
 <script>
   import url from "~/assets/lib/url"
   import util from "~/assets/lib/util"
-  import BiuCrumb from "~/components/BiuCrumb";
+  import BiuCrumb from "~/components/BiuCrumb"
+  import 'common/markdown/style.css'
 
   export default {
     components: {BiuCrumb},
@@ -55,8 +56,6 @@
     }
   }
 </script>
-
-<style src="common/markdown/style.css"></style>
 
 <style lang="scss" scoped>
   .biu-layout {
