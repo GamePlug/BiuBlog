@@ -2,22 +2,23 @@
   <div class="biu-layout">
     <div class="biu-content">
       <div class="biu-title">
-        <label><input type="text" value=""></label>
-        <a class="button is-primary">发表博客</a>
+        <label><input type="text" v-model="mdTitle" placeholder="请输入标题"></label>
+        <a class="button is-light" @click="clickConfig">配置</a>
+        <a class="button is-primary" @click="clickPublish">发表博客</a>
       </div>
       <div class="biu-menu">
         <div class="buttons">
-          <a class="button is-text" @click="clickFull">全屏</a>
+          <a class="button is-text" @click="clickFull">{{ isFull ? '预览' : '全屏' }}</a>
           <a class="button is-text" @click="clickImport">导入</a>
           <a class="button is-text" @click="clickExport">导出</a>
           <a class="button is-text" @click="clickSave">保存</a>
         </div>
       </div>
-      <div class="biu-article" v-show="!isFull">
+      <div class="biu-article">
         <label><textarea class="biu-edit" v-model="mdEdit" ref="vEdit" @scroll="scrollEdit"
                          @mouseover="hoverEdit"></textarea></label>
         <div class="biu-view markdown-body" v-html="mdView" ref="vView" @scroll="scrollView"
-             @mouseover="hoverView"></div>
+             @mouseover="hoverView" v-show="!isFull"></div>
       </div>
     </div>
   </div>
@@ -30,6 +31,7 @@
   export default {
     data() {
       return {
+        mdTitle: '',
         mdEdit: '',
         mdView: '',
         isEdit: false,
@@ -37,12 +39,23 @@
       }
     },
     methods: {
+      clickConfig() {
+
+      },
+      clickPublish() {
+
+      },
       clickFull() {
         this.isFull = !this.isFull
         const vEdit = this.$refs.vEdit
         const vView = this.$refs.vView
-        vEdit.style.width = '0'
-        vView.style.width = '100%'
+        if (this.isFull) {
+          vEdit.style.width = '100%'
+          vView.style.width = '0'
+        } else {
+          vEdit.style.width = '50%'
+          vView.style.width = '50%'
+        }
       },
       clickImport() {
 
@@ -89,21 +102,17 @@
         height: 3rem;
         background-color: #ffffff;
         input {
-          width: calc(100% - 9rem);
+          width: calc(100% - 13.5rem);
           height: 100%;
           padding-left: 1rem;
-          font-size: 1.8rem;
+          font-size: 1.5rem;
           border: 0;
           color: #333333;
-          &:hover {
-            color: #4d96fa
-          }
+          outline: none;
         }
         .button {
-          position: absolute;
-          top: 0.5rem;
-          right: 1rem;
-          width: 7rem;
+          margin: 0.5rem 0 0 1rem;
+          padding: 0 1rem;
           height: 2rem;
         }
       }
@@ -115,9 +124,6 @@
           height: 2rem;
           margin: 0;
           padding: 0 0.3rem;
-          &:hover {
-            background-color: #eeeeee;
-          }
         }
       }
       .biu-article {
@@ -135,6 +141,7 @@
           font-family: sans-serif, 宋体;
           color: #000000;
           border: hidden;
+          outline: none;
         }
         .biu-view {
           position: relative;
