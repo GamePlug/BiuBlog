@@ -1,7 +1,13 @@
-const config = require('./config.pro')
-//const config = require('./config.dev')
+const fs = require('fs')
 
-const config_env = config.env || 'development'
+let config
+if (fs.existsSync(__dirname + '/config.json')) {
+  config = require('./config')
+} else {
+  config = require('./config.default')
+}
+
+const config_env = config.env || 'default'
 const node_env = process.env.NODE_ENV || 'development'
 console.log(`CONFIG_ENV is ${config_env}; NODE_ENV is ${node_env}`)
 
