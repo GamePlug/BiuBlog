@@ -43,7 +43,16 @@
 
       },
       clickPublish() {
-
+        this.$axios.post('blog/list', {
+          type: ''
+        }).then((res) => {
+          if (res.data.err) {
+            return error({statusCode: 404, message: 'This page could not be found'})
+          }
+          return {list: res.data.result}
+        }).catch(function (error) {
+          console.log(error.stack)
+        })
       },
       clickFull() {
         this.isFull = !this.isFull

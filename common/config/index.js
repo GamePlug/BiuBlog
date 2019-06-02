@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 let config
-if (fs.existsSync(__dirname + '/config.json')) {
+if (fs.existsSync(`${__dirname}/config.json`)) {
   config = require('./config')
 } else {
   config = require('./config.default')
