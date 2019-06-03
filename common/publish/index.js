@@ -1,18 +1,11 @@
 const fs = require('fs')
 const path = require('path')
-const config = require('../config')
 const root = '../'
-const adminPath = `client/static/${config.admin.base}`
 const releasePath = 'dist'
 
 switch (process.env.PUBLISH_ENV) {
   case 'clear':
-    clear(adminPath)
     clear(releasePath)
-    break
-  case 'admin':
-    clear(adminPath)
-    copy('admin/dist', adminPath)
     break
   case 'release':
     clear(releasePath)

@@ -85,4 +85,4 @@ sw.*
 
 # BiuBlog
 /common/config/config.json
-/client/static/admin
+package-lock.json

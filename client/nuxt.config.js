@@ -80,8 +80,8 @@ export default {
    */
   proxy: {
     [`${config.server.base}/`]: `http://${config.server.host}:${config.server.port}`,
-    [`${config.client.base}${config.admin.base}/`]: {
-      target: `http://${config.client.host}:${config.client.port}${config.client.base}${config.admin.base}/index.html`,
+    [`${config.client.base}$/test/`]: {
+      target: `http://${config.client.host}:${config.client.port}${config.client.base}/test/index.html`,
       pathRewrite: {'^.*': ''}
     }
   }

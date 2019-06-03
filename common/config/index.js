@@ -4,16 +4,15 @@ let config
 if (fs.existsSync(`${__dirname}/config.json`)) {
   config = require('./config')
 } else {
-  config = require('./config.default')
+  config = require('./config.dev')
 }
 
-const config_env = config.env || 'default'
+const config_env = config.env || 'development'
 const node_env = process.env.NODE_ENV || 'development'
 console.log(`CONFIG_ENV is ${config_env}; NODE_ENV is ${node_env}`)
 
 config.server = build(config.server)
 config.client = build(config.client)
-config.admin = build(config.admin)
 
 function build(target) {
   let base = target.base
