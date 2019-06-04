@@ -5,115 +5,55 @@ const util = require('../lib/util')
 const router = new Router()
 router.prefix('/blog')
 
-// 新增博客类型
-router.all('/type/add', async ctx => {
-  const {name, sort} = util.getParams(ctx)
-  if (util.checkParamsIsEmpty(ctx, {name})) return
-  const type = {name, sort}
-  const item = await new db.BlogType(type).save()
-  util.setBodySuccess(ctx, util.getBlogTypeBody(item))
-})
-
-// 删除博客类型
-router.all('/type/delete', async ctx => {
-  const {id} = util.getParams(ctx)
-  if (util.checkParamsNotId(ctx, {id})) return
-  const result = await db.BlogType.deleteOne({_id: id})
-  if (result.deletedCount === 0) {
-    util.setBodyError(ctx, '该博客类型不存在')
-    return
-  }
-  util.setBodySuccess(ctx, {})
-})
-
-// 修改博客类型
-router.all('/type/update', async ctx => {
-  const {id, name, sort} = util.getParams(ctx)
-  if (util.checkParamsNotId(ctx, {id})) return
-  const type = {}
-  if (name) type.name = name
-  if (sort) {
-    if (util.checkParamsNotInt(ctx, {sort})) return
-    type.sort = sort
-  }
-  if (Object.keys(type).length === 0) {
-    util.setBodyError(ctx, '缺少要修改的参数')
-    return
-  }
-  const result = await db.BlogType.updateOne({_id: id}, type)
-  if (result.n === 0) {
-    util.setBodyError(ctx, '该博客类型不存在')
-    return
-  }
-  util.setBodySuccess(ctx, {})
-})
-
-// 获取博客类型列表
-router.all('/type/list', async ctx => {
-  const list = await db.BlogType.find({}).sort({sort: 1})
-  util.setBodySuccess(ctx, list.map((item) => {
-    return util.getBlogTypeBody(item)
-  }))
-})
-
-// 新增博客
-router.all('/add', async ctx => {
-  const {title, subtitle, content, date, type} = util.getParams(ctx)
-  if (util.checkParamsIsEmpty(ctx, {title, subtitle, content})) return
-  if (util.checkParamsNotId(ctx, {type})) return
-  if (!await db.BlogType.findOne({_id: type})) {
+// 新增或修改博客
+router.all('/save', async ctx => {
+  const {id, title, subtitle, content, type, date, status, top} = util.getParams(ctx)
+  if (util.checkParamsNotId(ctx, {id, type})) return
+  if (util.checkParamsOutRange(ctx, {status}, ['0', '1', '2'])) return
+  if (util.checkParamsOutRange(ctx, {top}, ['0', '1'])) return
+  if (type && !await db.BlogType.findOne({_id: type})) {
     util.setBodyError(ctx, '博客类型不存在')
     return
   }
-  const blog = {title, subtitle, content, date, type}
-  const save = await new db.Blog(blog).save()
-  const item = await db.Blog.findOne({_id: save._id}).populate(util.populateBlogType())
-  util.setBodySuccess(ctx, util.getBlogBody(item))
+  if (!id) {
+    // 没有id表示新增
+    if (util.checkParamsIsEmpty(ctx, {title, subtitle, content, type})) return
+    const blog = {title, subtitle, content, type, date, status, top}
+    const save = await new db.Blog(blog).save()
+    const item = await db.Blog.findOne({_id: save._id}).populate(util.populateBlogType())
+    util.setBodySuccess(ctx, util.getBlogBody(item))
+  } else {
+    // 有id表示修改
+    const blog = {}
+    if (title) blog.title = title
+    if (subtitle) blog.subtitle = subtitle
+    if (content) blog.content = content
+    if (type) blog.type = type
+    if (date) blog.date = date
+    if (status) blog.status = status
+    if (top) blog.top = top
+    if (Object.keys(blog).length === 0) {
+      util.setBodyError(ctx, '缺少要修改的参数')
+      return
+    }
+    if (title || subtitle || content) {
+      blog.$inc = {__v: 1}// 修改了title或subtitle或content,版本才+1
+    }
+    const item = await db.Blog.findOneAndUpdate({_id: id}, blog, {new: true}).populate(util.populateBlogType())
+    if (!item) {
+      util.setBodyError(ctx, '该博客不存在')
+      return
+    }
+    util.setBodySuccess(ctx, util.getBlogBody(item))
+  }
 })
 
 // 删除博客
 router.all('/delete', async ctx => {
   const {id} = util.getParams(ctx)
+  if (util.checkParamsIsEmpty(ctx, {id})) return
   if (util.checkParamsNotId(ctx, {id})) return
-  const item = await db.Blog.findOne({_id: id}).populate(util.populateBlogType())
-  if (!item) {
-    util.setBodyError(ctx, '该博客不存在')
-    return
-  }
-  const result = await db.Blog.deleteOne({_id: id})
-  if (result.deletedCount === 0) {
-    util.setBodyError(ctx, '该博客不存在')
-    return
-  }
-  util.setBodySuccess(ctx, util.getBlogBody(item))
-})
-
-// 修改博客
-router.all('/update', async ctx => {
-  const {id, title, subtitle, content, date, type} = util.getParams(ctx)
-  if (util.checkParamsNotId(ctx, {id})) return
-  const blog = {}
-  if (title) blog.title = title
-  if (subtitle) blog.subtitle = subtitle
-  if (content) blog.content = content
-  if (date) blog.date = date
-  if (type) {
-    if (!await db.BlogType.findOne({_id: type})) {
-      util.setBodyError(ctx, '博客类型不存在')
-      return
-    }
-    blog.type = type
-  }
-  if (Object.keys(blog).length === 0) {
-    util.setBodyError(ctx, '缺少要修改的参数')
-    return
-  }
-  const result = await db.Blog.updateOne({_id: id}, blog)
-  if (result.n === 0) {
-    util.setBodyError(ctx, '该博客不存在')
-    return
-  }
-  const item = await db.Blog.findOne({_id: id}).populate(util.populateBlogType())
+  const item = await db.Blog.findOneAndDelete({_id: id}).populate(util.populateBlogType())
   if (!item) {
     util.setBodyError(ctx, '该博客不存在')
     return
@@ -123,13 +63,14 @@ router.all('/update', async ctx => {
 
 // 获取博客列表
 router.all('/list', async ctx => {
-  const {type} = util.getParams(ctx)
+  const {type, page, size} = util.getParams(ctx)
+  if (util.checkParamsNotId(ctx, {type})) return
+  const _page = parseInt(page) > 0 ? parseInt(page) : 1
+  const _size = parseInt(size) > 0 ? parseInt(size) : 10
   const condition = {}
-  if (type) {
-    if (util.checkParamsNotId(ctx, {type})) return
-    condition.type = type
-  }
-  const list = await db.Blog.find(condition).populate(util.populateBlogType()).sort({date: -1})
+  if (type) condition.type = type
+  const list = await db.Blog.find(condition).populate(util.populateBlogType())
+    .skip((_page - 1) * _size).limit(_size).sort({top: -1, date: -1})
   util.setBodySuccess(ctx, list.map((item) => {
     return util.getBlogBody(item)
   }))
@@ -138,6 +79,7 @@ router.all('/list', async ctx => {
 // 获取博客
 router.all('/one', async ctx => {
   const {id} = util.getParams(ctx)
+  if (util.checkParamsIsEmpty(ctx, {id})) return
   if (util.checkParamsNotId(ctx, {id})) return
   const item = await db.Blog.findOne({_id: id}).populate(util.populateBlogType())
   if (!item) {

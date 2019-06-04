@@ -4,6 +4,7 @@ const mongodb = {
   connect: function (uri) {
     const options = {
       useNewUrlParser: true,
+      useFindAndModify: false
     }
     mongoose.connect(uri, options).then(
       () => {

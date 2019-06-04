@@ -19,15 +19,24 @@ const util = {
     return false
   },
 
+  checkParamsNotId: function (ctx, params) {
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        const param = params[key]
+        if (param && !param.match(/^[0-9a-fA-F]{24}$/)) {
+          this.setBodyError(ctx, `Param ${key} is not ObjectId`)
+          return true
+        }
+      }
+    }
+    return false
+  },
+
   checkParamsNotInt: function (ctx, params) {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const param = params[key]
-        if (!param) {
-          this.setBodyError(ctx, `Param ${key} is empty`)
-          return true
-        }
-        if (!param.match(/^-?[1-9]\d*$/)) {
+        if (param && !param.match(/^-?[1-9]\d*$/)) {
           this.setBodyError(ctx, `Param ${key} is not Integer`)
           return true
         }
@@ -36,16 +45,12 @@ const util = {
     return false
   },
 
-  checkParamsNotId: function (ctx, params) {
+  checkParamsOutRange: function (ctx, params, ranges) {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const param = params[key]
-        if (!param) {
-          this.setBodyError(ctx, `Param ${key} is empty`)
-          return true
-        }
-        if (!param.match(/^[0-9a-fA-F]{24}$/)) {
-          this.setBodyError(ctx, `Param ${key} is not ObjectId`)
+        if (param && !ranges.find(range => range === param)) {
+          this.setBodyError(ctx, `Param ${key} is out range [${ranges}]`)
           return true
         }
       }
@@ -84,11 +89,14 @@ const util = {
   getBlogBody: function (item, isContent) {
     return {
       id: item._id,
+      version: item.__v,
       title: item.title,
       subtitle: item.subtitle,
       content: isContent ? markdown.render(item.content) : '',
+      type: item.type ? this.getBlogTypeBody(item.type) : null,
       date: item.date,
-      type: item.type ? this.getBlogTypeBody(item.type) : null
+      status: item.status,
+      top: item.top
     }
   }
 }

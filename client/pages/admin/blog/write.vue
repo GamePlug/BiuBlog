@@ -29,6 +29,7 @@
   import 'common/markdown/style.css'
 
   export default {
+    layout: 'empty',
     head() {
       return {
         title: '博客编辑',
@@ -50,12 +51,10 @@
 
       },
       clickPublish() {
-        this.$axios.post('blog/list', {
+        this.$axios.post('blog/save', {
           type: ''
         }).then((res) => {
-          if (res.data.err) {
-            return error({statusCode: 404, message: 'This page could not be found'})
-          }
+          if (res.data.err) return
           return {list: res.data.result}
         }).catch(function (error) {
           console.log(error.stack)

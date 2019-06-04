@@ -1,7 +1,7 @@
 {
   "name": "common",
   "version": "1.0.0",
-  "description": "My publish project",
+  "description": "My common project",
   "author": "LeiChao",
   "main": "index.js",
   "private": true,
