@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <nuxt-link class="navbar-item biu-logo" :to="url.index" @click.native="onActiveChange('')">
+      <nuxt-link class="navbar-item biu-logo" :to="data.logo.url" @click.native="onActiveChange('')">
         <BiuLogo radius="1rem"/>
-        <span>雷超</span>
+        <span>{{ data.logo.name }}</span>
       </nuxt-link>
       <a class="navbar-burger" role="button" aria-label="menu" aria-expanded="false"
          :class="activeClass" @click="onActiveChange">
@@ -16,17 +16,17 @@
     <div class="navbar-menu" :class="activeClass">
       <div class="navbar-start">
         <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
-                   v-for="item in menuData.menuLeft" :key="item.url" :to="item.url">
+                   v-for="item in data.left" :key="item.url" :to="item.url">
           {{ item.name }}
         </nuxt-link>
 
-        <div class="navbar-item has-dropdown is-hoverable" v-if="menuData.menuMore && menuData.menuMore.length > 0">
+        <div class="navbar-item has-dropdown is-hoverable" v-if="data.more && data.more.length > 0">
           <a class="navbar-link">
             更多
           </a>
           <div class="navbar-dropdown">
             <nuxt-link class="navbar-item" @click.native="onActiveChange('')"
-                       v-for="item in menuData.menuMore" :key="item.url" :to="item.url">
+                       v-for="item in data.more" :key="item.url" :to="item.url">
               {{ item.name }}
             </nuxt-link>
           </div>
@@ -37,7 +37,7 @@
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-light" target="_blank" @click="onActiveChange('')"
-               v-for="item in menuData.menuRight" :key="item.url" :href="item.url">
+               v-for="item in data.right" :key="item.url" :href="item.url">
               <strong>{{ item.name }}</strong>
             </a>
           </div>
@@ -49,31 +49,46 @@
 
 <script>
   import url from "~/assets/lib/url"
-  import BiuLogo from "~/components/BiuLogo";
+  import BiuLogo from "~/components/BiuLogo"
+
+  const list = {
+    '/admin': {
+      logo: {name: '后台管理', url: url.admin},
+      left: [
+        {name: '博客管理', url: url.blogManage}
+      ],
+      more: [],
+      right: [
+        {name: '博客编辑', url: url.a.blogWrite},
+        {name: '首页', url: url.a.index}
+      ]
+    },
+    '/': {
+      logo: {name: '雷超', url: url.index},
+      left: [
+        {name: '精品博客', url: url.blogList()},
+        {name: '原创小说', url: '/beta/原创小说'},
+        {name: '心情随笔', url: '/beta/心情随笔'},
+        {name: '推荐收藏', url: '/beta/推荐收藏'},
+        {name: '留言板', url: '/beta/留言板'},
+        {name: '关于', url: url.about}
+      ],
+      more: [],
+      right: [
+        {name: 'Github', url: url.a.github},
+        {name: '后台管理', url: url.a.admin}
+      ]
+    }
+  }
 
   export default {
     name: "BiuMenu",
     components: {BiuLogo},
     data() {
       return {
-        url,
-        menuData: {
-          logo: '雷超',
-          menuLeft: [
-            {name: '精品博客', url: url.blogList()},
-            {name: '原创小说', url: '/beta/原创小说'},
-            {name: '心情随笔', url: '/beta/心情随笔'},
-            {name: '推荐收藏', url: '/beta/推荐收藏'},
-            {name: '留言板', url: '/beta/留言板'},
-            {name: '关于', url: url.about}
-          ],
-          menuMore: [],
-          menuRight: [
-            {name: 'Github', url: url.github},
-            {name: '后台管理', url: url.admin}
-          ]
-        },
-        activeClass: ''
+        currentUrl: '',
+        activeClass: '',
+        data: list['/']
       }
     },
     methods: {
@@ -85,9 +100,21 @@
         }
       }
     },
+    created() {
+      this.currentUrl = this.$route.path
+    },
     watch: {
       $route(to, from) {
+        this.currentUrl = to.path
         this.onActiveChange('')
+      },
+      currentUrl(newUrl, oldUrl) {
+        for (let key in list) {
+          if (list.hasOwnProperty(key) && newUrl.startsWith(key)) {
+            this.data = list[key]
+            break;
+          }
+        }
       }
     }
   }

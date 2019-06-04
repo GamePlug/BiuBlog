@@ -21,7 +21,7 @@
   export default {
     components: {BiuCrumb},
     head() {
-      return {title: '博客'}
+      return {title: this.blog.title}
     },
     data() {
       return {

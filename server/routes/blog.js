@@ -18,7 +18,10 @@ router.all('/save', async ctx => {
   if (!id) {
     // 没有id表示新增
     if (util.checkParamsIsEmpty(ctx, {title, subtitle, content, type})) return
-    const blog = {title, subtitle, content, type, date, status, top}
+    const blog = {title, subtitle, content, type}
+    if (date) blog.date = date
+    if (status) blog.status = status
+    if (top) blog.top = top
     const save = await new db.Blog(blog).save()
     const item = await db.Blog.findOne({_id: save._id}).populate(util.populateBlogType())
     util.setBodySuccess(ctx, util.getBlogBody(item))
@@ -63,12 +66,14 @@ router.all('/delete', async ctx => {
 
 // 获取博客列表
 router.all('/list', async ctx => {
-  const {type, page, size} = util.getParams(ctx)
+  const {type, status, page, size} = util.getParams(ctx)
   if (util.checkParamsNotId(ctx, {type})) return
+  if (util.checkParamsOutRange(ctx, {status}, ['0', '1', '2'])) return
   const _page = parseInt(page) > 0 ? parseInt(page) : 1
   const _size = parseInt(size) > 0 ? parseInt(size) : 10
   const condition = {}
   if (type) condition.type = type
+  if (status) condition.status = status
   const list = await db.Blog.find(condition).populate(util.populateBlogType())
     .skip((_page - 1) * _size).limit(_size).sort({top: -1, date: -1})
   util.setBodySuccess(ctx, list.map((item) => {

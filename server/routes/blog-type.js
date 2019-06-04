@@ -13,7 +13,8 @@ router.all('/save', async ctx => {
   if (!id) {
     // 没有id表示新增
     if (util.checkParamsIsEmpty(ctx, {name})) return
-    const type = {name, sort}
+    const type = {name}
+    if (sort) type.sort = sort
     const item = await new db.BlogType(type).save()
     util.setBodySuccess(ctx, util.getBlogTypeBody(item))
   } else {
