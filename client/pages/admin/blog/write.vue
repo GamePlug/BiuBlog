@@ -3,15 +3,15 @@
     <div class="biu-content">
       <div class="biu-title">
         <label><input type="text" v-model="mdTitle" placeholder="请输入标题"></label>
-        <a class="button is-light" @click="clickConfig">配置</a>
-        <a class="button is-primary" @click="clickPublish">发表博客</a>
+        <a class="button is-light" @click="clickPublish(false)">配置</a>
+        <a class="button is-primary" @click="clickPublish(true)">发表博客</a>
       </div>
       <div class="biu-menu">
         <div class="buttons">
-          <a class="button is-text" @click="clickFull">{{ isFull ? '预览' : '全屏' }}</a>
-          <a class="button is-text" @click="clickImport">导入</a>
-          <a class="button is-text" @click="clickExport">导出</a>
-          <a class="button is-text" @click="clickSave">保存</a>
+          <a class="button is-text" @click="menuFull">{{ isFull ? '预览' : '全屏' }}</a>
+          <a class="button is-text" @click="menuImport">导入</a>
+          <a class="button is-text" @click="menuExport">导出</a>
+          <a class="button is-text" @click="menuSave">保存</a>
         </div>
       </div>
       <div class="biu-article">
@@ -19,6 +19,27 @@
                          @mouseover="hoverEdit"></textarea></label>
         <div class="biu-view markdown-body" v-html="mdView" ref="vView" @scroll="scrollView"
              @mouseover="hoverView" v-show="!isFull"></div>
+      </div>
+    </div>
+
+    <div class="modal" :class="modalActiveClass">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">{{ isPublish ? '发表博客' : '修改配置' }}</p>
+        </header>
+        <section class="modal-card-body">
+          <div>a</div>
+          <div>a</div>
+          <div>a</div>
+        </section>
+        <footer class="modal-card-foot">
+          <button class="button" @click="onModalActiveChange('')">取消</button>
+          <button class="button is-success" @click="onPublish">{{ isPublish ? '确认发表' : '确认修改' }}</button>
+        </footer>
+        <div class="notification is-danger" v-if="errMsg">
+          {{ errMsg }}
+        </div>
       </div>
     </div>
   </div>
@@ -43,24 +64,41 @@
         mdEdit: '',
         mdView: '',
         isEdit: false,
-        isFull: false
+        isFull: false,
+        modalActiveClass: false,
+        isPublish: false,
+        errMsg: ''
       }
     },
     methods: {
-      clickConfig() {
-
+      clickPublish(isPublish) {
+        this.isPublish = isPublish
+        this.onModalActiveChange()
       },
-      clickPublish() {
+      onModalActiveChange(activeClass) {
+        if (typeof activeClass === 'string') {
+          this.modalActiveClass = activeClass
+        } else {
+          this.modalActiveClass = this.modalActiveClass !== 'is-active' ? 'is-active' : ''
+        }
+      },
+      onPublish() {
         this.$axios.post('blog/save', {
           type: ''
         }).then((res) => {
-          if (res.data.err) return
-          return {list: res.data.result}
+          if (res.data.err) {
+            this.errMsg = res.data.message
+            setTimeout(() => {
+              this.errMsg = ''
+            }, 3000)
+            return
+          }
+          onModalActiveChange('')
         }).catch(function (error) {
           console.log(error.stack)
         })
       },
-      clickFull() {
+      menuFull() {
         this.isFull = !this.isFull
         const vEdit = this.$refs.vEdit
         const vView = this.$refs.vView
@@ -72,13 +110,13 @@
           vView.style.width = '50%'
         }
       },
-      clickImport() {
+      menuImport() {
 
       },
-      clickExport() {
+      menuExport() {
 
       },
-      clickSave() {
+      menuSave() {
 
       },
       scrollEdit() {
@@ -170,6 +208,20 @@
           background-color: #ffffff;
           overflow-y: auto;
         }
+      }
+    }
+    .modal {
+      .modal-card-head {
+        text-align: center;
+      }
+      .modal-card-foot {
+        justify-content: flex-end
+      }
+      .notification {
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-align: center;
       }
     }
   }

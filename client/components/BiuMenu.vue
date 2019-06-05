@@ -53,14 +53,14 @@
 
   const list = {
     '/admin': {
-      logo: {name: '后台管理', url: url.admin},
+      logo: {name: '管理', url: url.admin},
       left: [
         {name: '博客管理', url: url.blogManage}
       ],
       more: [],
       right: [
-        {name: '博客编辑', url: url.a.blogWrite},
-        {name: '首页', url: url.a.index}
+        {name: 'Github', url: url.a.github},
+        {name: '写博客', url: url.a.blogWrite}
       ]
     },
     '/': {
@@ -76,7 +76,7 @@
       more: [],
       right: [
         {name: 'Github', url: url.a.github},
-        {name: '后台管理', url: url.a.admin}
+        {name: '管理', url: url.a.admin}
       ]
     }
   }
@@ -123,8 +123,16 @@
 <style lang="scss" scoped>
   .navbar {
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .08);
-    .nuxt-link-active {
-      color: #3273dc
+    a.navbar-item {
+      &.nuxt-link-active {
+        color: #3273dc;
+        background-color: #f6f8fa;
+      }
+      &.biu-logo,
+      &:not(.nuxt-link-active) {
+        color: #4a4a4a;
+        background-color: #ffffff;
+      }
     }
     .biu-logo {
       padding: 0 1rem;

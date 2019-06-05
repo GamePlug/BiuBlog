@@ -1,13 +1,13 @@
 <template>
   <div class="biu-layout">
-    后台管理
+    管理
   </div>
 </template>
 
 <script>
   export default {
     head() {
-      return {title: '后台管理'}
+      return {title: '管理'}
     }
   }
 </script>

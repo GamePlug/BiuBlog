@@ -1,7 +1,6 @@
 const url = {
   a: {
     github: 'https://github.com/GamePlug/BiuBlog',
-    index: '',
     admin: 'admin',
     blogWrite: 'admin/blog/write'
   },
