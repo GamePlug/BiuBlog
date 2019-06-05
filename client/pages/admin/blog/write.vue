@@ -67,7 +67,8 @@
         isFull: false,
         modalActiveClass: false,
         isPublish: false,
-        errMsg: ''
+        errMsg: '',
+        errMsgTimeOut: undefined
       }
     },
     methods: {
@@ -88,7 +89,8 @@
         }).then((res) => {
           if (res.data.err) {
             this.errMsg = res.data.message
-            setTimeout(() => {
+            this.errMsgTimeOut && clearTimeout(this.errMsgTimeOut)
+            this.errMsgTimeOut = setTimeout(() => {
               this.errMsg = ''
             }, 3000)
             return
