@@ -2,9 +2,8 @@
   <div class="biu-layout">
     <div class="biu-content">
       <div class="biu-title">
-        <label><input type="text" v-model="mdTitle" placeholder="请输入标题"></label>
-        <a class="button is-light" @click="clickPublish(false)">配置</a>
-        <a class="button is-primary" @click="clickPublish(true)">发表博客</a>
+        <label><input type="text" v-model="mdTitle" placeholder="请输入博客标题"></label>
+        <a class="button is-primary" @click="clickPublish">发表博客</a>
       </div>
       <div class="biu-menu">
         <div class="buttons">
@@ -26,7 +25,7 @@
       <div class="modal-background"></div>
       <div class="modal-card">
         <header class="modal-card-head">
-          <p class="modal-card-title">{{ isPublish ? '发表博客' : '修改配置' }}</p>
+          <p class="modal-card-title">发表博客</p>
         </header>
         <section class="modal-card-body">
           <div>a</div>
@@ -35,11 +34,10 @@
         </section>
         <footer class="modal-card-foot">
           <button class="button" @click="onModalActiveChange('')">取消</button>
-          <button class="button is-success" @click="onPublish">{{ isPublish ? '确认发表' : '确认修改' }}</button>
+          <button class="button is-success" @click="modalPublish">确认发表</button>
         </footer>
-        <div class="notification is-danger" v-if="errMsg">
-          {{ errMsg }}
-        </div>
+        <progress class="progress progress is-success" v-if="isLoading"></progress>
+        <div class="notification is-danger" v-if="errMsg && !isLoading">{{ errMsg }}</div>
       </div>
     </div>
   </div>
@@ -60,20 +58,53 @@
     data() {
       return {
         markdown: {},
+        blog: {},
+        id: this.$route.params.id || '',
         mdTitle: '',
         mdEdit: '',
         mdView: '',
         isEdit: false,
         isFull: false,
         modalActiveClass: false,
-        isPublish: false,
+        isLoading: false,
         errMsg: '',
         errMsgTimeOut: undefined
       }
     },
+    asyncData({params, $axios, error}) {
+      if (params.id) {// 有id则从服务器取blog
+        return $axios.post('blog/one', {
+          id: params.id || '',
+          mode: 'edit'
+        }).then(res => {
+          if (res.data.err) {
+            return error({statusCode: 404, message: 'This page could not be found'})
+          }
+          return {blog: res.data.result}
+        }).catch(err => {
+          error({statusCode: 404, message: 'This page could not be found'})
+          console.log(err.stack)
+        })
+      }
+    },
+    mounted() {
+      if (!this.id) {// 无id则从本地缓存取blog
+        this.blog = {
+          content: '还没有内容哦'
+        }
+      }
+      setTimeout(() => {
+        this.markdown = markdownCdn.build(markdownit, hljs)
+        this.mdEdit = this.blog.content
+      }, 500)
+    },
+    watch: {
+      mdEdit(newValue, oldValue) {
+        this.mdView = this.markdown.render(newValue)
+      }
+    },
     methods: {
-      clickPublish(isPublish) {
-        this.isPublish = isPublish
+      clickPublish() {
         this.onModalActiveChange()
       },
       onModalActiveChange(activeClass) {
@@ -83,22 +114,37 @@
           this.modalActiveClass = this.modalActiveClass !== 'is-active' ? 'is-active' : ''
         }
       },
-      onPublish() {
+      modalPublish() {
+        if (this.isLoading) return
+        this.isLoading = true
         this.$axios.post('blog/save', {
-          type: ''
-        }).then((res) => {
+          id: '',
+          title: '',
+          subtitle: '',
+          content: '',
+          type: '',
+          date: '',
+          status: 0,
+          top: 0
+        }).then(res => {
+          this.isLoading = false
           if (res.data.err) {
-            this.errMsg = res.data.message
-            this.errMsgTimeOut && clearTimeout(this.errMsgTimeOut)
-            this.errMsgTimeOut = setTimeout(() => {
-              this.errMsg = ''
-            }, 3000)
+            handleErr(res.data.message)
             return
           }
           onModalActiveChange('')
-        }).catch(function (error) {
+        }).catch(error => {
+          this.isLoading = false
+          handleErr('Server Error')
           console.log(error.stack)
         })
+        const handleErr = errMsg => {
+          this.errMsg = errMsg
+          if (this.errMsgTimeOut) clearTimeout(this.errMsgTimeOut)
+          this.errMsgTimeOut = setTimeout(() => {
+            this.errMsg = ''
+          }, 3000)
+        }
       },
       menuFull() {
         this.isFull = !this.isFull
@@ -141,14 +187,6 @@
       hoverView() {
         this.isEdit = false
       }
-    },
-    mounted() {
-      this.markdown = markdownCdn.build(markdownit, hljs)
-    },
-    watch: {
-      mdEdit(newValue, oldValue) {
-        this.mdView = this.markdown.render(newValue)
-      }
     }
   }
 </script>
@@ -160,7 +198,7 @@
         height: 3rem;
         background-color: #ffffff;
         input {
-          width: calc(100% - 13.5rem);
+          width: calc(100% - 9rem);
           height: 100%;
           padding-left: 1rem;
           font-size: 1.5rem;
@@ -170,7 +208,7 @@
         }
         .button {
           margin: 0.5rem 0 0 1rem;
-          padding: 0 1rem;
+          width: 7rem;
           height: 2rem;
         }
       }
@@ -219,7 +257,7 @@
       .modal-card-foot {
         justify-content: flex-end
       }
-      .notification {
+      .progress, .notification {
         position: absolute;
         left: 0;
         right: 0;

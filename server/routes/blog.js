@@ -83,15 +83,16 @@ router.all('/list', async ctx => {
 
 // 获取博客
 router.all('/one', async ctx => {
-  const {id} = util.getParams(ctx)
+  const {id, mode} = util.getParams(ctx)
   if (util.checkParamsIsEmpty(ctx, {id})) return
   if (util.checkParamsNotId(ctx, {id})) return
+  if (util.checkParamsOutRange(ctx, {mode}, ['view', 'edit'])) return
   const item = await db.Blog.findOne({_id: id}).populate(util.populateBlogType())
   if (!item) {
     util.setBodyError(ctx, '该博客不存在')
     return
   }
-  util.setBodySuccess(ctx, util.getBlogBody(item, true))
+  util.setBodySuccess(ctx, util.getBlogBody(item, mode || 'view'))
 })
 
 module.exports = router

@@ -33,7 +33,7 @@
       }
     },
     asyncData({params, $axios}) {
-      return $axios.post('blog/type/list').then((res) => {
+      return $axios.post('blog/type/list').then(res => {
         if (res.data.err) return
         // tabs
         const tabs = res.data.result
@@ -42,8 +42,8 @@
         const id = params.id || ''
         const breadcrumbs = getBreadcrumbs(tabs, id)
         return {tabs, breadcrumbs}
-      }).catch(function (error) {
-        console.log(error.stack)
+      }).catch(err => {
+        console.log(err.stack)
       })
     },
     watch: {

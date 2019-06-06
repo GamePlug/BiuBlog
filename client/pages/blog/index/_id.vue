@@ -33,13 +33,13 @@
     asyncData({params, $axios, error}) {
       return $axios.post('blog/list', {
         type: params.id || ''
-      }).then((res) => {
+      }).then(res => {
         if (res.data.err) {
           return error({statusCode: 404, message: 'This page could not be found'})
         }
         return {list: res.data.result}
-      }).catch(function (error) {
-        console.log(error.stack)
+      }).catch(err => {
+        console.log(err.stack)
       })
     },
     methods: {

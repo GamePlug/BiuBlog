@@ -6,11 +6,12 @@ const url = {
   },
 
   index: '/',
-  admin: '/admin',
   about: '/about',
   blogList: id => id ? `/blog/${id}` : '/blog',
   blogView: id => `/blog/view/${id}`,
-  blogManage: '/admin/blog'
+  admin: '/admin',
+  blogManage: '/admin/blog',
+  blogWrite: '/admin/blog/write'
 }
 
 export default url

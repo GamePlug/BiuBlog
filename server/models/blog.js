@@ -15,7 +15,7 @@ const Blog = mongoose.model('Blog', new Schema({
   type: {type: Schema.ObjectId, ref: BlogType.modelName},// 类型(BlogType的_id)
   date: {type: String, default: Date.now},// 日期
   status: {type: Number, default: 0},// 状态(0草稿箱中,1已发表,2回收站中)
-  top: {type: Number, default: 0}// 置顶(0置顶,1不置顶)
+  top: {type: Number, default: 0}// 置顶(0不置顶,1置顶)
 }))
 
 module.exports = {

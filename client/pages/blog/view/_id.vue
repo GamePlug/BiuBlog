@@ -34,7 +34,7 @@
     asyncData({params, $axios, error}) {
       return $axios.post('blog/one', {
         id: params.id || ''
-      }).then((res) => {
+      }).then(res => {
         if (res.data.err) {
           return error({statusCode: 404, message: 'This page could not be found'})
         }
@@ -50,8 +50,8 @@
         }
         breadcrumbs.push({name: blog.title, url: ''})
         return {blog, breadcrumbs}
-      }).catch(function (error) {
-        console.log(error.stack)
+      }).catch(err => {
+        console.log(err.stack)
       })
     }
   }

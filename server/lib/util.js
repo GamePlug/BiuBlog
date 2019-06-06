@@ -86,13 +86,19 @@ const util = {
     }
   },
 
-  getBlogBody: function (item, isContent) {
+  getBlogBody: function (item, mode) {
+    let content = ''
+    if (mode === 'view') {
+      content = markdown.render(item.content)
+    } else if (mode === 'edit') {
+      content = item.content
+    }
     return {
       id: item._id,
       version: item.__v,
       title: item.title,
       subtitle: item.subtitle,
-      content: isContent ? markdown.render(item.content) : '',
+      content: content,
       type: item.type ? this.getBlogTypeBody(item.type) : null,
       date: item.date,
       status: item.status,

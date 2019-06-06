@@ -55,7 +55,8 @@
     '/admin': {
       logo: {name: '管理', url: url.admin},
       left: [
-        {name: '博客管理', url: url.blogManage}
+        {name: '博客管理', url: url.blogManage},
+        {name: '写博客', url: url.blogWrite}
       ],
       more: [],
       right: [
