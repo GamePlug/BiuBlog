@@ -36,7 +36,7 @@
           <button class="button" @click="onModalActiveChange('')">取消</button>
           <button class="button is-success" @click="modalPublish">确认发表</button>
         </footer>
-        <progress class="progress progress is-success" v-if="isLoading"></progress>
+        <progress class="progress is-success" v-if="isLoading"></progress>
         <div class="notification is-danger" v-if="errMsg && !isLoading">{{ errMsg }}</div>
       </div>
     </div>
@@ -59,7 +59,6 @@
       return {
         markdown: undefined,
         blog: {},
-        id: this.$route.params.id || '',
         mdTitle: '',
         mdEdit: '',
         mdView: '',
@@ -88,9 +87,16 @@
       }
     },
     mounted() {
-      if (!this.id) {// 无id则从本地缓存取blog
+      if (!this.blog.id) {// 无id则从本地缓存取blog
         this.blog = {
-          content: '# 还没有内容哦'
+          id: '',
+          title: 'title',
+          subtitle: 'subtitle',
+          content: '# 还没有内容哦',
+          type: '5cf3a2ab30fbe917cc495720',
+          date: '',
+          status: 1,
+          top: 0
         }
       }
       const interval = setInterval(() => {
@@ -104,7 +110,11 @@
       }, 100)
     },
     watch: {
+      mdTitle(newValue, oldValue) {
+        this.blog.title = newValue
+      },
       mdEdit(newValue, oldValue) {
+        this.blog.content = newValue
         if (this.markdown) {
           this.mdView = this.markdown.render(newValue)
         } else {
@@ -127,25 +137,25 @@
         if (this.isLoading) return
         this.isLoading = true
         this.$axios.post('blog/save', {
-          id: '',
-          title: '',
-          subtitle: '',
-          content: '',
-          type: '',
+          id: this.blog.id,
+          title: this.blog.title,
+          subtitle: this.blog.subtitle,
+          content: this.blog.content,
+          type: this.blog.type,
           date: '',
-          status: 0,
-          top: 0
+          status: 1,
+          top: this.blog.top
         }).then(res => {
           this.isLoading = false
           if (res.data.err) {
             handleErr(res.data.message)
             return
           }
-          onModalActiveChange('')
-        }).catch(error => {
+          this.onModalActiveChange('')
+        }).catch(err => {
           this.isLoading = false
           handleErr('Server Error')
-          console.log(error.stack)
+          console.log(err.stack)
         })
         const handleErr = errMsg => {
           this.errMsg = errMsg
