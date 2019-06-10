@@ -1,23 +1,10 @@
 <template>
-  <div>
-    <BiuMenu/>
-    <div class="biu-content">
-      <nuxt/>
-    </div>
-  </div>
+  <nuxt/>
 </template>
 
 <script>
-  import BiuMenu from "../components/BiuMenu";
-
-  export default {
-    components: {BiuMenu}
-  }
+  export default {}
 </script>
 
 <style lang="scss" scoped>
-  .biu-content {
-    padding-top: 3.25rem;
-    background: #ffffff;
-  }
 </style>

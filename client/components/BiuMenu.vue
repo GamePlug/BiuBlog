@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <nuxt-link class="navbar-item biu-logo" :to="data.logo.url" @click.native="onActiveChange('')">
+      <nuxt-link v-if="data.logo" class="navbar-item biu-logo" :to="data.logo.url" @click.native="onActiveChange('')">
         <BiuLogo radius="1rem"/>
         <span>{{ data.logo.name }}</span>
       </nuxt-link>
@@ -48,48 +48,22 @@
 </template>
 
 <script>
-  import url from "~/assets/lib/url"
   import BiuLogo from "~/components/BiuLogo"
-
-  const list = {
-    '/admin': {
-      logo: {name: '管理', url: url.admin},
-      left: [
-        {name: '博客管理', url: url.blogManage},
-        {name: '写博客', url: url.blogWrite}
-      ],
-      more: [],
-      right: [
-        {name: 'Github', url: url.a.github},
-        {name: '写博客', url: url.a.blogWrite}
-      ]
-    },
-    '/': {
-      logo: {name: '雷超', url: url.index},
-      left: [
-        {name: '精品博客', url: url.blogList()},
-        {name: '原创小说', url: '/beta/原创小说'},
-        {name: '心情随笔', url: '/beta/心情随笔'},
-        {name: '推荐收藏', url: '/beta/推荐收藏'},
-        {name: '留言板', url: '/beta/留言板'},
-        {name: '关于', url: url.about}
-      ],
-      more: [],
-      right: [
-        {name: 'Github', url: url.a.github},
-        {name: '管理', url: url.a.admin}
-      ]
-    }
-  }
 
   export default {
     name: "BiuMenu",
     components: {BiuLogo},
+    props: {
+      data: {
+        type: Object,
+        default: function () {
+          return {}
+        }
+      }
+    },
     data() {
       return {
-        currentUrl: '',
-        activeClass: '',
-        data: list['/']
+        activeClass: ''
       }
     },
     methods: {
@@ -101,21 +75,9 @@
         }
       }
     },
-    created() {
-      this.currentUrl = this.$route.path
-    },
     watch: {
       $route(to, from) {
-        this.currentUrl = to.path
         this.onActiveChange('')
-      },
-      currentUrl(newUrl, oldUrl) {
-        for (let key in list) {
-          if (list.hasOwnProperty(key) && newUrl.startsWith(key)) {
-            this.data = list[key]
-            break;
-          }
-        }
       }
     }
   }

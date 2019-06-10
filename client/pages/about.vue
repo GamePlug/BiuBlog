@@ -8,6 +8,7 @@
 
 <script>
   export default {
+    layout: 'blog',
     head() {
       return {title: '关于'}
     }

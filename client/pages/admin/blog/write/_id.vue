@@ -48,7 +48,7 @@
   import 'common/markdown/style.css'
 
   export default {
-    layout: 'empty',
+    layout: 'default',
     head() {
       return {
         title: '博客编辑',
@@ -57,7 +57,7 @@
     },
     data() {
       return {
-        markdown: {},
+        markdown: undefined,
         blog: {},
         id: this.$route.params.id || '',
         mdTitle: '',
@@ -90,17 +90,26 @@
     mounted() {
       if (!this.id) {// 无id则从本地缓存取blog
         this.blog = {
-          content: '还没有内容哦'
+          content: '# 还没有内容哦'
         }
       }
-      setTimeout(() => {
-        this.markdown = markdownCdn.build(markdownit, hljs)
-        this.mdEdit = this.blog.content
-      }, 500)
+      const interval = setInterval(() => {
+        if (this.markdown) {
+          clearInterval(interval)
+        } else if (typeof(markdownit) !== 'undefined' && typeof(hljs) !== 'undefined') {
+          this.markdown = markdownCdn.build(markdownit, hljs)
+          this.mdEdit = this.blog.content
+          clearInterval(interval)
+        }
+      }, 100)
     },
     watch: {
       mdEdit(newValue, oldValue) {
-        this.mdView = this.markdown.render(newValue)
+        if (this.markdown) {
+          this.mdView = this.markdown.render(newValue)
+        } else {
+          this.mdEdit = ''
+        }
       }
     },
     methods: {

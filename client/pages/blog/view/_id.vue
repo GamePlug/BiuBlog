@@ -19,6 +19,7 @@
   import 'common/markdown/style.css'
 
   export default {
+    layout: 'blog',
     components: {BiuCrumb},
     head() {
       return {title: this.blog.title}

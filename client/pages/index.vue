@@ -14,6 +14,7 @@
   import BlogText from "~/components/BiuText";
 
   export default {
+    layout: 'blog',
     components: {BlogText},
     head() {
       return {title: '首页'}

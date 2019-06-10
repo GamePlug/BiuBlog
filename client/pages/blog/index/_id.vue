@@ -22,6 +22,7 @@
   import util from "~/assets/lib/util"
 
   export default {
+    layout: 'blog',
     data() {
       return {
         url,

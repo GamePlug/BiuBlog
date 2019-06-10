@@ -20,6 +20,7 @@
 
   const title = '精品博客'
   export default {
+    layout: 'blog',
     components: {BiuCrumb},
     head() {
       return {title: title}
