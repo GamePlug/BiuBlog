@@ -14,14 +14,14 @@ router.all('/save', async ctx => {
     // 没有id表示新增
     if (util.checkParamsIsEmpty(ctx, {name})) return
     const type = {name}
-    if (sort) type.sort = sort
+    if (!util.isEmpty(sort)) type.sort = sort
     const item = await new db.BlogType(type).save()
     util.setBodySuccess(ctx, util.getBlogTypeBody(item))
   } else {
     // 有id表示修改
     const type = {}
-    if (name) type.name = name
-    if (sort) type.sort = sort
+    if (!util.isEmpty(name)) type.name = name
+    if (!util.isEmpty(sort)) type.sort = sort
     if (Object.keys(type).length === 0) {
       util.setBodyError(ctx, '缺少要修改的参数')
       return

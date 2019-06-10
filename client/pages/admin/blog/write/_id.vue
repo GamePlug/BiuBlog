@@ -93,12 +93,15 @@
           title: 'title',
           subtitle: 'subtitle',
           content: '# 还没有内容哦',
-          type: '5cf3a2ab30fbe917cc495720',
+          type: {
+            id: ''
+          },
           date: '',
           status: 1,
           top: 0
         }
       }
+      this.mdTitle = this.blog.title
       const interval = setInterval(() => {
         if (this.markdown) {
           clearInterval(interval)
@@ -141,7 +144,7 @@
           title: this.blog.title,
           subtitle: this.blog.subtitle,
           content: this.blog.content,
-          type: this.blog.type,
+          type: this.blog.type.id,
           date: '',
           status: 1,
           top: this.blog.top

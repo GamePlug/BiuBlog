@@ -6,11 +6,15 @@ const util = {
     return "GET" === ctx.request.method ? ctx.request.query : ctx.request.body
   },
 
+  isEmpty: function(param) {
+    return typeof(param) === 'undefined' || param.toString() === ''
+  },
+
   checkParamsIsEmpty: function (ctx, params) {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const param = params[key]
-        if (!param) {
+        if (this.isEmpty(param)) {
           this.setBodyError(ctx, `Param ${key} is empty`)
           return true
         }
@@ -23,7 +27,7 @@ const util = {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const param = params[key]
-        if (param && !param.match(/^[0-9a-fA-F]{24}$/)) {
+        if (!this.isEmpty(param) && !param.toString().match(/^[0-9a-fA-F]{24}$/)) {
           this.setBodyError(ctx, `Param ${key} is not ObjectId`)
           return true
         }
@@ -36,7 +40,7 @@ const util = {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const param = params[key]
-        if (param && !param.match(/^-?[1-9]\d*$/)) {
+        if (!this.isEmpty(param) && !param.toString().match(/^-?[1-9]\d*$/)) {
           this.setBodyError(ctx, `Param ${key} is not Integer`)
           return true
         }
@@ -49,9 +53,12 @@ const util = {
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         const param = params[key]
-        if (param && !ranges.find(range => range === param)) {
-          this.setBodyError(ctx, `Param ${key} is out range [${ranges}]`)
-          return true
+        if (!this.isEmpty(param)) {
+          const find = ranges.find(range => range.toString() === param.toString())
+          if (this.isEmpty(find)) {
+            this.setBodyError(ctx, `Param ${key} is out range [${ranges}]`)
+            return true
+          }
         }
       }
     }

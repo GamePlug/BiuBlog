@@ -9,8 +9,8 @@ router.prefix('/blog')
 router.all('/save', async ctx => {
   const {id, title, subtitle, content, type, date, status, top} = util.getParams(ctx)
   if (util.checkParamsNotId(ctx, {id, type})) return
-  if (util.checkParamsOutRange(ctx, {status}, ['0', '1', '2'])) return
-  if (util.checkParamsOutRange(ctx, {top}, ['0', '1'])) return
+  if (util.checkParamsOutRange(ctx, {status}, [0, 1, 2])) return
+  if (util.checkParamsOutRange(ctx, {top}, [0, 1])) return
   if (type && !await db.BlogType.findOne({_id: type})) {
     util.setBodyError(ctx, '博客类型不存在')
     return
@@ -19,22 +19,22 @@ router.all('/save', async ctx => {
     // 没有id表示新增
     if (util.checkParamsIsEmpty(ctx, {title, subtitle, content, type})) return
     const blog = {title, subtitle, content, type}
-    if (date) blog.date = date
-    if (status) blog.status = status
-    if (top) blog.top = top
+    if (!util.isEmpty(date)) blog.date = date
+    if (!util.isEmpty(status)) blog.status = status
+    if (!util.isEmpty(top)) blog.top = top
     const save = await new db.Blog(blog).save()
     const item = await db.Blog.findOne({_id: save._id}).populate(util.populateBlogType())
     util.setBodySuccess(ctx, util.getBlogBody(item))
   } else {
     // 有id表示修改
     const blog = {}
-    if (title) blog.title = title
-    if (subtitle) blog.subtitle = subtitle
-    if (content) blog.content = content
-    if (type) blog.type = type
-    if (date) blog.date = date
-    if (status) blog.status = status
-    if (top) blog.top = top
+    if (!util.isEmpty(title)) blog.title = title
+    if (!util.isEmpty(subtitle)) blog.subtitle = subtitle
+    if (!util.isEmpty(content)) blog.content = content
+    if (!util.isEmpty(type)) blog.type = type
+    if (!util.isEmpty(date)) blog.date = date
+    if (!util.isEmpty(status)) blog.status = status
+    if (!util.isEmpty(top)) blog.top = top
     if (Object.keys(blog).length === 0) {
       util.setBodyError(ctx, '缺少要修改的参数')
       return
@@ -68,12 +68,12 @@ router.all('/delete', async ctx => {
 router.all('/list', async ctx => {
   const {type, status, page, size} = util.getParams(ctx)
   if (util.checkParamsNotId(ctx, {type})) return
-  if (util.checkParamsOutRange(ctx, {status}, ['0', '1', '2'])) return
+  if (util.checkParamsOutRange(ctx, {status}, [0, 1, 2])) return
   const _page = parseInt(page) > 0 ? parseInt(page) : 1
   const _size = parseInt(size) > 0 ? parseInt(size) : 10
   const condition = {}
-  if (type) condition.type = type
-  if (status) condition.status = status
+  if (!util.isEmpty(type)) condition.type = type
+  if (!util.isEmpty(status)) condition.status = status
   const list = await db.Blog.find(condition).populate(util.populateBlogType())
     .skip((_page - 1) * _size).limit(_size).sort({top: -1, date: -1})
   util.setBodySuccess(ctx, list.map((item) => {
