@@ -28,13 +28,50 @@
           <p class="modal-card-title">发表博客</p>
         </header>
         <section class="modal-card-body">
-          <div>a</div>
-          <div>a</div>
-          <div>a</div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">标题:</label>
+            </div>
+            <div class="field-body field control">
+              <input class="input" type="text" placeholder="请输入博客标题">
+            </div>
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">副标题:</label>
+            </div>
+            <div class="field-body field control">
+              <textarea class="textarea" placeholder="请输入博客副标题"></textarea>
+            </div>
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label" for="biu-type">分类:</label>
+            </div>
+            <div class="field-body">
+              <div class="select">
+                <select id="biu-type">
+                  <option>Android</option>
+                  <option>Java</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="field is-horizontal">
+            <div class="field-label is-normal">
+              <label class="label">置顶:</label>
+            </div>
+            <div class="field-body">
+              <label class="checkbox">
+                <input type="checkbox">
+                置顶
+              </label>
+            </div>
+          </div>
         </section>
         <footer class="modal-card-foot">
           <button class="button" @click="onModalActiveChange('')">取消</button>
-          <button class="button is-success" @click="modalPublish">确认发表</button>
+          <button class="button is-success" :class="isLoading?'is-loading':''" @click="modalPublish">确认发表</button>
         </footer>
         <progress class="progress is-success" v-if="isLoading"></progress>
         <div class="notification is-danger" v-if="errMsg && !isLoading">{{ errMsg }}</div>
@@ -276,6 +313,11 @@
     .modal {
       .modal-card-head {
         text-align: center;
+      }
+      .modal-card-body {
+        .checkbox {
+          line-height: 2.25rem;
+        }
       }
       .modal-card-foot {
         justify-content: flex-end
