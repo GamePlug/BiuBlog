@@ -8,7 +8,9 @@
   import BiuText from "~/components/BiuText";
 
   export default {
-    layout: 'blog',
+    layout({query}) {
+      return query.layout || 'blog'
+    },
     components: {BiuText},
     head() {
       return {title: this.$route.params.id}

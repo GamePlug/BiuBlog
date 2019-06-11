@@ -216,6 +216,7 @@
 <style lang="scss" scoped>
   .biu-layout {
     .biu-content {
+      height: 100vh;
       .biu-title {
         height: 3rem;
         background-color: #ffffff;
@@ -245,7 +246,7 @@
         }
       }
       .biu-article {
-        height: calc(100vh - 5rem);
+        height: calc(100% - 5rem);
         .biu-edit {
           position: relative;
           float: left;

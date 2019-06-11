@@ -1,6 +1,6 @@
 <template>
   <div class="biu-layout">
-    管理首页
+    博客草稿箱
   </div>
 </template>
 
@@ -8,7 +8,7 @@
   export default {
     layout: 'admin',
     head() {
-      return {title: '管理首页'}
+      return {title: '博客草稿箱'}
     }
   }
 </script>

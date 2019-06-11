@@ -1,6 +1,6 @@
 <template>
   <div>
-    <BiuMenu :data="data"/>
+    <BiuBar :data="barData"/>
     <div class="biu-content">
       <nuxt/>
     </div>
@@ -9,13 +9,13 @@
 
 <script>
   import url from "~/assets/lib/url"
-  import BiuMenu from "../components/BiuMenu";
+  import BiuBar from "~/components/BiuBar"
 
   export default {
-    components: {BiuMenu},
+    components: {BiuBar},
     data() {
       return {
-        data: {
+        barData: {
           logo: {name: '雷超', url: url.index},
           left: [
             {name: '精品博客', url: url.blogList()},
@@ -38,7 +38,6 @@
 
 <style lang="scss" scoped>
   .biu-content {
-    padding-top: 3.25rem;
-    background: #ffffff;
+    padding-top: var(--biu-bar-height);
   }
 </style>

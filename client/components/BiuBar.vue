@@ -51,7 +51,7 @@
   import BiuLogo from "~/components/BiuLogo"
 
   export default {
-    name: "BiuMenu",
+    name: "BiuBar",
     components: {BiuLogo},
     props: {
       data: {
@@ -106,5 +106,11 @@
         margin-left: 1rem;
       }
     }
+  }
+</style>
+
+<style>
+  body {
+    --biu-bar-height: 3.25rem;
   }
 </style>
