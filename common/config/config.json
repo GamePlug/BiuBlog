@@ -1,0 +1,14 @@
+{
+  "env": "production",
+  "server": {
+    "host": "0.0.0.0",
+    "port": 3000,
+    "base": "/api",
+    "mongodb": "mongodb://leichao:520LeiChao520@ileichao.com:27017/biublog"
+  },
+  "client": {
+    "host": "0.0.0.0",
+    "port": 80,
+    "base": ""
+  }
+}
